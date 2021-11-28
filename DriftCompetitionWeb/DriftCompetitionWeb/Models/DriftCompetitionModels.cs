@@ -29,7 +29,6 @@ namespace DriftCompetitionWeb.Models
         public string Number { set; get; }
         public virtual ICollection<StageResult> StageResults { set; get; }
         public virtual ICollection<RaceResult> RaceResults { set; get; }
-
     }
 
     public class Competition
@@ -46,8 +45,6 @@ namespace DriftCompetitionWeb.Models
         public string Status { set; get; }
         public virtual ICollection<CompetitionResult> CompetitionResults { set; get; }
         public virtual ICollection<Stage> Stages { set; get; }
-
-
     }
 
     public class CompetitionResult
@@ -58,7 +55,6 @@ namespace DriftCompetitionWeb.Models
         public int NumberOfCompletedStages { set; get; }
         public float ResultGrade { set; get; }
         public int ResultPlace { set; get; }
-
     }
 
     public class Stage
@@ -90,7 +86,6 @@ namespace DriftCompetitionWeb.Models
         public virtual Stage Stage { set; get; }
         public int IndexInOlympicSystemp { set; get; }
         public virtual ICollection<RaceResult> RaceResults { set; get; }
-
     }
 
     public class RaceResult
