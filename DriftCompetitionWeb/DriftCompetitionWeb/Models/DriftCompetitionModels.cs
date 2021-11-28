@@ -4,17 +4,21 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace DriftCompetitionWeb.Models
 {
-    public class User: Microsoft.AspNetCore.Identity.IdentityUser
+    public class User : Microsoft.AspNetCore.Identity.IdentityUser
     {
-        //public virtual ICollection<Car> Cars { set; get; }
         public int UserID { set; get; }
-
+        public virtual ICollection<Car> Cars { set; get; }
+        public virtual ICollection<CompetitionResult> CompetitionResults { set; get; }
+        public virtual ICollection<StageResult> StageResults { set; get; }
+        public virtual ICollection<RaceResult> RaceResults { set; get; }
+        public virtual ICollection<UserToRole> UserToRoles { set; get; }
     }
 
     public class Car
     {
         public Guid CarID { set; get; }
         public int UserID { set; get; }
+        public virtual User User { set; get; }
         public string Description { set; get; }
         public virtual ICollection<CarNumber> CarNumbers { set; get; }
     }
@@ -25,6 +29,9 @@ namespace DriftCompetitionWeb.Models
         public int CarID { set; get; }
         public virtual Car Car { set; get; }
         public string Number { set; get; }
+        public virtual ICollection<StageResult> StageResults { set; get; }
+        public virtual ICollection<RaceResult> RaceResults { set; get; }
+
     }
 
     public class Competition
@@ -39,13 +46,19 @@ namespace DriftCompetitionWeb.Models
         public int StagesNumber { set; get; }
         public bool IsOver { set; get; }
         public string Status { set; get; }
+        public virtual ICollection<CompetitionResult> CompetitionResults { set; get; }
+        public virtual ICollection<Stage> Stages { set; get; }
+
 
     }
 
     public class CompetitionResult
     {
+        public Guid CompetitionResultID { set; get; }
         public int CompetitionID { set; get; }
+        public virtual Competition Competition { set; get; }
         public int UserID { set; get; }
+        public User User { set; get; }
         public int NumberOfCompletedStages { set; get; }
         public float ResultGrade { set; get; }
         public int ResultPlace { set; get; }
@@ -56,6 +69,7 @@ namespace DriftCompetitionWeb.Models
     {
         public Guid StageID { set; get; }
         public int CompetitionID { set; get; }
+        public virtual Competition Competition { set; get; }
         public DateTime RegistrationStartTime { set; get; }
         public DateTime RegistrationEndTime { set; get; }
         public Guid TechCommissionerID { set; get; }
@@ -63,13 +77,19 @@ namespace DriftCompetitionWeb.Models
         public float ViewPrice { set; get; }
         public float ParticipationPrice { set; get; }
         public string Address { set; get; }
+        public virtual ICollection<StageResult> StageResults { set; get; }
+        public virtual ICollection<Race> Races { set; get; }
     }
 
     public class StageResult
     {
+        public Guid StageResultID { set; get; }
         public int StageID { set; get; }
+        public virtual Stage Stage { set; get; }
         public int UserID { set; get; }
+        public virtual User User { set; get; }
         public int CarNumberID { set; get; }
+        public virtual CarNumber CarNumber { set; get;}
         public int ResultPlace { set; get; }
     }
 
@@ -77,14 +97,21 @@ namespace DriftCompetitionWeb.Models
     { 
         public Guid RaceID { set; get; }
         public int StageID { set; get; }
+        public virtual Stage Stage { set; get; }
         public int IndexInOlympicSystemp { set; get; }
+        public virtual ICollection<RaceResult> RaceResults { set; get; }
+
     }
 
     public class RaceResult
     { 
+        public Guid RaceResultID { set; get; }
         public int RaceID { set; get; }
+        public virtual Race Race { set; get; }
         public int UserID { set; get; }
+        public virtual User User { set; get; }
         public int CarNumberID { set; get; }
+        public virtual CarNumber CarNumber { set; get; }
         public bool SuccessfullyEnded { set; get; }
         public float AngleGrade { set; get; }
         public float StyleGrade { set; get; }
@@ -96,6 +123,15 @@ namespace DriftCompetitionWeb.Models
     { 
         public Guid RoleID { set; get; }
         public string Name { set; get; }
+    }
+
+    public class UserToRole
+    { 
+        public Guid UserToRoleID { set; get; }
+        public int UserID { set; get; }
+        public virtual User User { set; get; }
+        public int StageID { set; get; }
+        public virtual Stage Stage { set; get; }
     }
 
 }
