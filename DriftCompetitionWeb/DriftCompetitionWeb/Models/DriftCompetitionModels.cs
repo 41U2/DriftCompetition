@@ -6,7 +6,6 @@ namespace DriftCompetitionWeb.Models
 {
     public class User : Microsoft.AspNetCore.Identity.IdentityUser
     {
-        public int UserID { set; get; }
         public virtual ICollection<Car> Cars { set; get; }
         public virtual ICollection<CompetitionResult> CompetitionResults { set; get; }
         public virtual ICollection<StageResult> StageResults { set; get; }
