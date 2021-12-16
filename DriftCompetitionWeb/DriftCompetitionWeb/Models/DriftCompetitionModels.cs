@@ -16,7 +16,7 @@ namespace DriftCompetitionWeb.Models
     public class Car
     {
         public Guid CarID { set; get; }
-        public virtual User User { set; get; }
+        public virtual Microsoft.AspNetCore.Identity.IdentityUser User { set; get; }
         public string Description { set; get; }
         public virtual ICollection<CarNumber> CarNumbers { set; get; }
     }
@@ -50,7 +50,7 @@ namespace DriftCompetitionWeb.Models
     {
         public Guid CompetitionResultID { set; get; }
         public virtual Competition Competition { set; get; }
-        public User User { set; get; }
+        public Microsoft.AspNetCore.Identity.IdentityUser User { set; get; }
         public int NumberOfCompletedStages { set; get; }
         public float ResultGrade { set; get; }
         public int ResultPlace { set; get; }
@@ -74,7 +74,7 @@ namespace DriftCompetitionWeb.Models
     {
         public Guid StageResultID { set; get; }
         public virtual Stage Stage { set; get; }
-        public virtual User User { set; get; }
+        public virtual Microsoft.AspNetCore.Identity.IdentityUser User { set; get; }
         public virtual CarNumber CarNumber { set; get;}
         public int ResultPlace { set; get; }
     }
@@ -91,7 +91,7 @@ namespace DriftCompetitionWeb.Models
     { 
         public Guid RaceResultID { set; get; }
         public virtual Race Race { set; get; }
-        public virtual User User { set; get; }
+        public virtual Microsoft.AspNetCore.Identity.IdentityUser User { set; get; }
         public virtual CarNumber CarNumber { set; get; }
         public bool SuccessfullyEnded { set; get; }
         public float AngleGrade { set; get; }
@@ -109,7 +109,7 @@ namespace DriftCompetitionWeb.Models
     public class UserToRole
     { 
         public Guid UserToRoleID { set; get; }
-        public virtual User User { set; get; }
+        public virtual Microsoft.AspNetCore.Identity.IdentityUser User { set; get; }
         public virtual Stage Stage { set; get; }
         public virtual Role Role { set; get; }
     }
