@@ -13,22 +13,13 @@ namespace DriftCompetitionWeb.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly DbRepository repository;
+        private readonly CarsRepository carsRepository;
         private readonly UserManager<IdentityUser> _userManager;
 
         public HomeController(ApplicationDbContext dbContext, UserManager<IdentityUser> userManager)
         {
-            repository = new DbRepository(dbContext);
+            carsRepository = new CarsRepository(dbContext);
             _userManager = userManager;
-            
-            //System.Security.Claims.ClaimsPrincipal currentUser = this.User;
-            //bool check = this.User.Identity.IsAuthenticated;
-            //var id = _userManager.GetUserId(this.User);
-            //var user = _userManager.GetUserAsync(HttpContext.User);
-            //repository.AddDefaultCar(user.Result, "CurrentUser");
-            Car tmp = repository.CarByDescription("Request");
-            // удалить все записи из car
-            int prikol = 1;
         }
 
         public IdentityUser GetCurrentUser()
@@ -39,8 +30,10 @@ namespace DriftCompetitionWeb.Controllers
 
         public IActionResult Index()
         {
-            IdentityUser user = GetCurrentUser();
-            Car car = repository.CarByDescription("CurrentUser");
+            /*IdentityUser user = GetCurrentUser();
+            carsRepository.AddNewCar(user, "Check add 2");
+            carsRepository.AddNewCar(user, "Check add 3");
+            IEnumerable<Car> usersCars = carsRepository.UsersCars(user);*/
             return View();
         }
 
