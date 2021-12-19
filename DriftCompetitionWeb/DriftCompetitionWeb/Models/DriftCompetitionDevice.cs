@@ -12,6 +12,18 @@ namespace DriftCompetitionWeb.Models
     public class DriftCompetitionDevice
     {
         public CarRepository carsRepository;
-        public Compe
+        public CompetitionRepository competitionRepository;
+        public RaceRepository raceRepository;
+        public RoleRepository roleRepository;
+        public StageRepository stageRepository;
+
+        public DriftCompetitionDevice(ApplicationDbContext dbContext) 
+        {
+            carsRepository = new CarRepository(dbContext);
+            competitionRepository = new CompetitionRepository(dbContext);
+            raceRepository = new RaceRepository(dbContext);
+            roleRepository = new RoleRepository(dbContext);
+            stageRepository = new StageRepository(dbContext);
+        }
     }
 }

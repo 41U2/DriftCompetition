@@ -13,12 +13,10 @@ namespace DriftCompetitionWeb.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly CarRepository carsRepository;
         private readonly UserManager<IdentityUser> _userManager;
 
         public HomeController(ApplicationDbContext dbContext, UserManager<IdentityUser> userManager)
         {
-            carsRepository = new CarRepository(dbContext);
             _userManager = userManager;
         }
 
@@ -30,10 +28,6 @@ namespace DriftCompetitionWeb.Controllers
 
         public IActionResult Index()
         {
-            IdentityUser user = GetCurrentUser();
-            carsRepository.AddNewCar(user, "Check add 2");
-            carsRepository.AddNewCar(user, "Check add 3");
-            IEnumerable<Car> usersCars = carsRepository.UsersCars(user);
             return View();
         }
 
