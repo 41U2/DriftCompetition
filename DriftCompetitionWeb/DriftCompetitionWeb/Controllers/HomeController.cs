@@ -30,10 +30,10 @@ namespace DriftCompetitionWeb.Controllers
 
         public IActionResult Index()
         {
-            /*IdentityUser user = GetCurrentUser();
+            IdentityUser user = GetCurrentUser();
             carsRepository.AddNewCar(user, "Check add 2");
             carsRepository.AddNewCar(user, "Check add 3");
-            IEnumerable<Car> usersCars = carsRepository.UsersCars(user);*/
+            IEnumerable<Car> usersCars = carsRepository.UsersCars(user);
             return View();
         }
 

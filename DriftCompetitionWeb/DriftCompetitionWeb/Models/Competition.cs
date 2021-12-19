@@ -43,28 +43,10 @@ namespace DriftCompetitionWeb.Models
             m_dbContext = dbContext;
         }
 
-        public void AddCompetition(
-            string name,
-            string requirements,
-            DateTime beginTime,
-            DateTime endTime,
-            float prizePool,
-            string format,
-            int stagesNumber,
-            bool isOver,
-            string status)
+        public void AddCompetition(Competition competition)
         {
-            Competition competition = new Competition { 
-                Name = name,
-                Requirements = requirements,
-                BeginTime = beginTime,
-                EndTime = endTime,
-                PrizePool = prizePool,
-                Format = format,
-                StagesNumber = stagesNumber,
-                IsOver = isOver,
-                Status = status
-            };
+            if (competition == null)
+                return;
             m_dbContext.Competitions.Add(competition);
             m_dbContext.SaveChanges();
         }
@@ -74,28 +56,33 @@ namespace DriftCompetitionWeb.Models
             m_dbContext.SaveChanges();
         }
 
-        public IEnumerable<Competition> GetAllCompetitions()
-        { 
+        public IEnumerable<Competition> AllCompetitions()
+        {
             return m_dbContext.Competitions.
-                Include(c=>c.Name).
-                Include(c => c.Requirements).
-                Include(c => c.BeginTime).
-                Include(c => c.EndTime).
-                Include(c => c.PrizePool).
-                Include(c => c.Format).
-                Include(c => c.StagesNumber).
-                Include(c => c.IsOver).
-                Include(c => c.Status);
+                Include(c => c.Stages);
         }
 
-        public CompetitionResult GetUsersCompetitionResult(IdentityUser user, Competition competition)
+        public void AddCompetitionResult(CompetitionResult competitionResult)
+        {
+            if (competitionResult == null)
+                return;
+            m_dbContext.CompetitionResults.Add(competitionResult);
+            m_dbContext.SaveChanges();
+        }
+
+        public void RemoveCompetitionResult(CompetitionResult competitionResult)
+        {
+            if (competitionResult == null)
+                return;
+            m_dbContext.CompetitionResults.Remove(competitionResult);
+            m_dbContext.SaveChanges();
+        }
+
+        public CompetitionResult UsersCompetitionResult(IdentityUser user, Competition competition)
         {
             return m_dbContext.CompetitionResults.
                 Include(cr => cr.Competition).
                 Include(cr => cr.User).
-                Include(cr => cr.NumberOfCompletedStages).
-                Include(cr => cr.ResultGrade).
-                Include(cr => cr.ResultPlace).
                 Where(cr => cr.User == user).
                 Where(cr => cr.Competition == competition).
                 First();
@@ -106,9 +93,6 @@ namespace DriftCompetitionWeb.Models
             return m_dbContext.CompetitionResults.
                 Include(cr => cr.Competition).
                 Include(cr => cr.User).
-                Include(cr => cr.NumberOfCompletedStages).
-                Include(cr => cr.ResultGrade).
-                Include(cr => cr.ResultPlace).
                 Where(cr => cr.User == user);
         }
 

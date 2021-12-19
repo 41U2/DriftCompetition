@@ -41,11 +41,10 @@ namespace DriftCompetitionWeb.Models
             m_dbContext.SaveChanges();
         }
 
-        public void AddNewCar(IdentityUser user, string description)
+        public void AddCar(Car car)
         {
-            if (user == null)
+            if (car == null)
                 return;
-            Car car = new Car { Description = description, User = user };
             m_dbContext.Cars.Add(car);
             m_dbContext.SaveChanges();
         }
@@ -56,9 +55,24 @@ namespace DriftCompetitionWeb.Models
             return m_dbContext.Cars.
                 Include(c => c.CarID).
                 Include(c => c.User).
-                Include(c => c.Description).
                 Include(c => c.CarNumbers).
                 Where(c => c.User == user);
+        }
+
+        public void AddCarNumber(CarNumber carNumber)
+        {
+            if (carNumber == null)
+                return;
+            m_dbContext.CarNumbers.Add(carNumber);
+            m_dbContext.SaveChanges();
+        }
+
+        public void RemoveCarNumber(CarNumber carNumber)
+        {
+            if (carNumber == null)
+                return;
+            m_dbContext.CarNumbers.Remove(carNumber);
+            m_dbContext.SaveChanges();
         }
     }
 }
