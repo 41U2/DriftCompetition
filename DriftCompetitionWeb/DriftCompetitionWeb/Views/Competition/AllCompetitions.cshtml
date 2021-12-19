@@ -1,0 +1,20 @@
+﻿@model List<Competition>
+@{
+    ViewBag.Title = "Соревнования для крутых гонщиков";
+}
+
+<div class="text-center">
+    <h2 class="display-3">@ViewBag.Title</h2>
+</div>
+
+
+
+<h3>Все соревнования:</h3>
+<form action="AddCompetition" method="post">
+    <input type="submit" value="Добавить соревнование">
+</form>
+@foreach (Competition competition in ViewBag.Competitions)
+{
+    <a asp-controller="Competition" asp-action="Info" asp-route-competitionID="@competition.CompetitionID">@competition.Name</a>
+    <h4>Формат: @competition.Format, призовой фонд: @competition.PrizePool$, количество этапов: @competition.StagesNumber</h4>
+}

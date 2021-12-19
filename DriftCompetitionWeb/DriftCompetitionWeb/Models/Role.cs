@@ -35,6 +35,34 @@ namespace DriftCompetitionWeb.Models
             m_dbContext = dbContext;
         }
 
+        public void AddRole(Role role)
+        {
+            if (role == null)
+                return;
+            m_dbContext.DriftCompetitionRoles.Add(role);
+            m_dbContext.SaveChanges();
+        }
+
+        public void RemoveRole(Role role)
+        {
+            if (role == null)
+                return;
+            m_dbContext.DriftCompetitionRoles.Remove(role);
+            m_dbContext.SaveChanges();
+        }
+        public void AddDefaultRoles()
+        {
+            m_dbContext.DriftCompetitionRoles.Add(new Role { Name = "Participant"});
+            m_dbContext.DriftCompetitionRoles.Add(new Role { Name = "Organizer" });
+            m_dbContext.DriftCompetitionRoles.Add(new Role { Name = "Referee" });
+            m_dbContext.SaveChanges();
+        }
+
+        public Role RoleByName(string name)
+        {
+            return m_dbContext.DriftCompetitionRoles.Where(r => r.Name == name).FirstOrDefault();
+        }
+
         public void AddUserToRole(UserToRole userToRole) 
         {
             if (userToRole == null)

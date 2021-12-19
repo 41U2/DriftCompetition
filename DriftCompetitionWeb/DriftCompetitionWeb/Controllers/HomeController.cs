@@ -14,13 +14,15 @@ namespace DriftCompetitionWeb.Controllers
     public class HomeController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly DriftCompetitionDevice driftCompetitionDevice;
 
         public HomeController(ApplicationDbContext dbContext, UserManager<IdentityUser> userManager)
         {
             _userManager = userManager;
+            driftCompetitionDevice = new DriftCompetitionDevice(dbContext);
         }
 
-        public IdentityUser GetCurrentUser()
+        public IdentityUser CurrentUser()
         {
             var userTmp = _userManager.GetUserAsync(HttpContext.User);
             return userTmp.Result;

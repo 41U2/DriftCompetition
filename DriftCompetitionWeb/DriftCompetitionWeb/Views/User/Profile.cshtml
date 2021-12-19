@@ -15,6 +15,6 @@
 </form>
 @foreach (Car car in ViewBag.Cars)
 {
-    <a asp-controller="Car" asp-action="Info" asp-route-carID="@car.CarID">@car.Description</a>
+    <a asp-controller="user" asp-action="CarInfo" asp-route-carID="@car.CarID">@car.Description</a>
     <h3></h3>
 }

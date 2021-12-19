@@ -58,6 +58,11 @@ namespace DriftCompetitionWeb.Models
             m_dbContext.SaveChanges();
         }
 
+        public Competition CompetitionByID(Guid competitionID)
+        {
+            return m_dbContext.Competitions.Where(c => c.CompetitionID == competitionID).FirstOrDefault();
+        }
+
         public IEnumerable<Competition> AllCompetitions()
         {
             return m_dbContext.Competitions.

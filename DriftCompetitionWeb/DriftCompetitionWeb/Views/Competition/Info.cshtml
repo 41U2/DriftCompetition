@@ -1,0 +1,26 @@
+﻿@model List<Stage>
+@{
+    ViewBag.Title = "Соревнование";
+}
+
+<div class="text-center">
+    <h3 class="display-3">@ViewBag.Title</h3>
+    <h4 class="display-3">@ViewBag.Competition.Name</h4>
+</div>
+
+
+<h5>Формат: @ViewBag.Competition.Format</h5>
+<h5>Призовой фонд: @ViewBag.Competition.PrizePool</h5>
+<h5>Количество этапов: @ViewBag.Competition.StagesNumber</h5>
+<h5>Начало: @ViewBag.Competition.BeginTime</h5>
+<h5>Окончание: @ViewBag.Competition.EndTime</h5>
+<h5>Требования к участнику: @ViewBag.Competition.Requirements</h5>
+
+
+<h4>Объявленные этапы: </h4>
+@foreach (Stage stage in ViewBag.Stages)
+{
+    <p>Этап в @stage.Address</p>
+}<form action="AddStage" method="post">
+    <input type="submit" value="Добавить этап">
+</form>
