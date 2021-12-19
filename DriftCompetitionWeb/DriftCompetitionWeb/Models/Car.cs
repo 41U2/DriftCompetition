@@ -26,11 +26,11 @@ namespace DriftCompetitionWeb.Models
         public virtual ICollection<RaceResult> RaceResults { set; get; }
     }
 
-    public class CarsRepository
+    public class CarRepository
     {
-        private DriftCompetitionWeb.Data.ApplicationDbContext m_dbContext;
+        private ApplicationDbContext m_dbContext;
 
-        public CarsRepository(ApplicationDbContext dbContext)
+        public CarRepository(ApplicationDbContext dbContext)
         {
             this.m_dbContext = dbContext;
         }

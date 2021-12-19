@@ -13,12 +13,12 @@ namespace DriftCompetitionWeb.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly CarsRepository carsRepository;
+        private readonly CarRepository carsRepository;
         private readonly UserManager<IdentityUser> _userManager;
 
         public HomeController(ApplicationDbContext dbContext, UserManager<IdentityUser> userManager)
         {
-            carsRepository = new CarsRepository(dbContext);
+            carsRepository = new CarRepository(dbContext);
             _userManager = userManager;
         }
 
