@@ -1,0 +1,16 @@
+﻿@model List<Car>
+@{
+    ViewBag.Title = "Профиль крутого гонщика";
+}
+
+<div class="text-center">
+    <h1 class="display-3">@ViewBag.Title</h1>
+</div>
+
+
+
+<h3>Машины пользователя:</h3>
+@foreach (Car car in ViewBag.Cars)
+{
+    <p>@car.Description</p>
+}
