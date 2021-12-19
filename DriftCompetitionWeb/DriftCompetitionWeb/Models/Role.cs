@@ -53,6 +53,8 @@ namespace DriftCompetitionWeb.Models
 
         public IEnumerable<UserToRole> AllUsersWithRoleInStage(Stage stage, string role)
         {
+            if (stage == null || role == null)
+                return null;
             return m_dbContext.UsersToRoles.
                 Include(utr => utr.User).
                 Include(utr => utr.Stage).
@@ -63,6 +65,8 @@ namespace DriftCompetitionWeb.Models
 
         public IEnumerable<UserToRole> AllUsersRoles(IdentityUser user)
         {
+            if (user == null)
+                return null;
             return m_dbContext.UsersToRoles.
                 Include(utr => utr.Stage).
                 Include(utr => utr.User).

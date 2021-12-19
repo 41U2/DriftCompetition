@@ -57,6 +57,8 @@ namespace DriftCompetitionWeb.Models
 
         public IEnumerable<Race> AllStageRaces(Stage stage)
         {
+            if (stage == null)
+                return null;
             return m_dbContext.Races.
                 Include(r => r.Stage).
                 Where(r => r.Stage == stage);
@@ -80,6 +82,8 @@ namespace DriftCompetitionWeb.Models
 
         public IEnumerable<RaceResult> AllUsersRaceResultsInStage(IdentityUser user, Stage stage)
         {
+            if (user == null || stage == null)
+                return null;
             return m_dbContext.RaceResults.
                 Include(rr => rr.Race).
                 Include(rr => rr.User).

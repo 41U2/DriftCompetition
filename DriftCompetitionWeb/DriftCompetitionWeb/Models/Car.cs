@@ -37,6 +37,8 @@ namespace DriftCompetitionWeb.Models
 
         public void RemoveCar(Car car)
         {
+            if (car == null)
+                return;
             m_dbContext.Remove(car);
             m_dbContext.SaveChanges();
         }

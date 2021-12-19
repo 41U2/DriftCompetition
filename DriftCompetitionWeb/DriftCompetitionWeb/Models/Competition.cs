@@ -28,7 +28,7 @@ namespace DriftCompetitionWeb.Models
     {
         public Guid CompetitionResultID { set; get; }
         public virtual Competition Competition { set; get; }
-        public Microsoft.AspNetCore.Identity.IdentityUser User { set; get; }
+        public IdentityUser User { set; get; }
         public int NumberOfCompletedStages { set; get; }
         public float ResultGrade { set; get; }
         public int ResultPlace { set; get; }
@@ -52,6 +52,8 @@ namespace DriftCompetitionWeb.Models
         }
         public void RemoveCompetition(Competition competition)
         {
+            if (competition == null)
+                return;
             m_dbContext.Remove(competition);
             m_dbContext.SaveChanges();
         }
@@ -80,6 +82,8 @@ namespace DriftCompetitionWeb.Models
 
         public CompetitionResult UsersCompetitionResult(IdentityUser user, Competition competition)
         {
+            if (user == null || competition == null)
+                return null;
             return m_dbContext.CompetitionResults.
                 Include(cr => cr.Competition).
                 Include(cr => cr.User).
@@ -90,6 +94,8 @@ namespace DriftCompetitionWeb.Models
 
         public IEnumerable<CompetitionResult> GetAllUsersCompetitionResults(IdentityUser user)
         {
+            if (user == null)
+                return null;
             return m_dbContext.CompetitionResults.
                 Include(cr => cr.Competition).
                 Include(cr => cr.User).
