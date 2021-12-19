@@ -11,12 +11,12 @@ using Microsoft.AspNetCore.Identity;
 
 namespace DriftCompetitionWeb.Controllers
 {
-    public class UserController : Controller
+    public class CarController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly DriftCompetitionDevice driftCompetitionDevice;
 
-        public UserController(ApplicationDbContext dbContext, UserManager<IdentityUser> userManager)
+        public CarController(ApplicationDbContext dbContext, UserManager<IdentityUser> userManager)
         {
             _userManager = userManager;
             driftCompetitionDevice = new DriftCompetitionDevice(dbContext);
@@ -28,22 +28,28 @@ namespace DriftCompetitionWeb.Controllers
             return userTmp.Result;
         }
 
-        public IActionResult Profile()
+        [HttpGet]
+        public IActionResult Info(Guid carID)
         {
-            IdentityUser currentUser = CurrentUser();
-            ViewBag.Cars = new List<Car> { };
-            IEnumerable<Car> usersCars = driftCompetitionDevice.carsRepository.UsersCars(currentUser);
-            if (currentUser != null)
-                ViewBag.Cars = usersCars.ToList();
+            Car car = driftCompetitionDevice.carsRepository.CarByID(carID);
+            ViewBag.Numbers = new List<Car> { };
+            ViewBag.Description = "";
+            ViewBag.carID = carID;
+            IEnumerable<CarNumber> carNumbers = driftCompetitionDevice.carsRepository.CarNumbers(car);
+            if (car != null)
+            {
+                ViewBag.Numbers = carNumbers.ToList();
+                ViewBag.Description = car.Description;
+            }
             return View();
         }
 
         [HttpPost]
-        public IActionResult AddCar()
+        public IActionResult AddCarNumber(Guid carID)
         {
-            IdentityUser currentUser = CurrentUser();
-            driftCompetitionDevice.carsRepository.AddCar(new Car { User = currentUser, Description = "Check add car from web-site."});
-            return RedirectToRoute(new { controller = "User", action = "Profile" });
+            Car car = driftCompetitionDevice.carsRepository.CarByID(carID);
+            driftCompetitionDevice.carsRepository.AddCarNumber(new CarNumber { Car = car, Number = "|mm123m|36|"});
+            return RedirectToRoute(new { controller = "Car", action = "Info", carID = carID });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -50,6 +50,14 @@ namespace DriftCompetitionWeb.Models
             m_dbContext.Cars.Add(car);
             m_dbContext.SaveChanges();
         }
+
+        public Car CarByID(Guid carID)
+        {
+            return m_dbContext.Cars.
+                Include(c => c.User).
+                Where(c => c.CarID == carID).
+                FirstOrDefault();
+        }
         public IEnumerable<Car> UsersCars(IdentityUser user)
         {
             if (user == null)
@@ -75,6 +83,15 @@ namespace DriftCompetitionWeb.Models
                 return;
             m_dbContext.CarNumbers.Remove(carNumber);
             m_dbContext.SaveChanges();
+        }
+
+        public IEnumerable<CarNumber> CarNumbers(Car car)
+        {
+            if (car == null)
+                return null;
+            return m_dbContext.CarNumbers.
+                Include(cn => cn.Car).
+                Where(cn => cn.Car == car);
         }
     }
 }

@@ -4,13 +4,17 @@
 }
 
 <div class="text-center">
-    <h1 class="display-3">@ViewBag.Title</h1>
+    <h1 class="display-3">@ViewBag.Title @User.Identity.Name</h1>
 </div>
 
 
 
 <h3>Машины пользователя:</h3>
+<form action="AddCar" method="post">
+    <input type="submit" value="Add new car.">
+</form>
 @foreach (Car car in ViewBag.Cars)
 {
-    <p>@car.Description</p>
+    <a asp-controller="Car" asp-action="Info" asp-route-carID="@car.CarID">@car.Description</a>
+    <h3></h3>
 }

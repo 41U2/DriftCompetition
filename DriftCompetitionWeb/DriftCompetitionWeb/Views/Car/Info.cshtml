@@ -1,0 +1,20 @@
+﻿@model List<CarNumber>
+@{
+    ViewBag.Title = "Машина крутого гонщика";
+}
+
+<div class="text-center">
+    <h1 class="display-3">@ViewBag.Title</h1>
+</div>
+
+
+<h4>Описание: @ViewBag.Description</h4>
+<h3>Номера машины:</h3>
+<form action="AddCarNumber" method="post">
+    <input type="hidden" name="carID" value="@ViewBag.carID"> 
+    <input type="submit" value="Добавить новый номер машины">
+</form>
+@foreach (CarNumber number in ViewBag.Numbers)
+{
+    <p>@number.Number</p>
+}
