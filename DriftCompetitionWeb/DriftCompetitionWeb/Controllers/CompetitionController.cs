@@ -37,9 +37,23 @@ namespace DriftCompetitionWeb.Controllers
         [HttpPost]
         public IActionResult AddCompetition()
         {
-            Competition competition = new Competition { Name = "Первое соревнование на сайте", StagesNumber = 2, PrizePool = 10000, Format = "Single Elimination"};
+            Competition competition = new Competition { Name = "Второе соревнование на сайте", StagesNumber = 2, PrizePool = 10000, Format = "Single Elimination"};
             driftCompetitionDevice.competitionRepository.AddCompetition(competition);
             return RedirectToRoute(new { controller = "Competition", action = "AllCompetitions" });
+        }
+
+        [HttpPost]
+        public IActionResult AddStage(Guid competitionID)
+        {
+            Competition competition = driftCompetitionDevice.competitionRepository.CompetitionByID(competitionID);
+            Stage stage = new Stage { 
+                Competition = competition,
+                ViewPrice = 5,
+                ParticipationPrice = 40,
+                Address = "г. Воронеж, Сити парк \"Град\"",
+            };
+            driftCompetitionDevice.stageRepository.AddStage(stage);
+            return RedirectToRoute(new { controller = "Competition", action = "Info", competitionID = competitionID});
         }
 
         public IActionResult Info(Guid competitionID)
