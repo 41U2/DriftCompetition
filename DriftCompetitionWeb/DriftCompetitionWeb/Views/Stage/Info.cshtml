@@ -1,0 +1,14 @@
+﻿@model List<Stage>
+@{
+    ViewBag.Title = "Этап";
+}
+
+<div class="text-center">
+    <h3 class="display-3">@ViewBag.Title</h3>
+</div>
+
+
+<h5>Соревнование: @ViewBag.Stage.Competition.Name</h5>
+<h5>Место проведения: @ViewBag.Stage.Address</h5>
+<h5>Старт регистрации: @ViewBag.Stage.RegistrationStartTime</h5>
+<h5>Окончание регистрации: @ViewBag.Stage.RegistrationEndTime</h5>

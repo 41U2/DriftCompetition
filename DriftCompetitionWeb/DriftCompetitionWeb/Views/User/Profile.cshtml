@@ -1,20 +1,29 @@
 ﻿@model List<Car>
 @{
-    ViewBag.Title = "Профиль крутого гонщика";
+    ViewBag.Title = "Профиль";
 }
 
 <div class="text-center">
-    <h1 class="display-3">@ViewBag.Title @User.Identity.Name</h1>
+    <h2 class="display-3">@ViewBag.Title</h2>
 </div>
 
 
-
-<h3>Машины пользователя:</h3>
-<form action="AddCar" method="post">
-    <input type="submit" value="Add new car.">
-</form>
-@foreach (Car car in ViewBag.Cars)
+@if (User.Identity.Name == null)
 {
-    <a asp-controller="user" asp-action="CarInfo" asp-route-carID="@car.CarID">@car.Description</a>
-    <h3></h3>
+    <div class="text-center">
+        <h3>Не авторизован</h3>
+    </div>
+}
+else
+{
+    <h5>Имя: @User.Identity.Name</h5>
+    <h5>Машины: </h5>
+    <form action="AddCar" method="post">
+        <input type="submit" value="Добавить новую машину">
+    </form>
+    @foreach (Car car in ViewBag.Cars)
+    {
+        <h5>Описание: @car.Description</h5>
+        <a asp-controller="user" asp-action="CarInfo" asp-route-carID="@car.CarID">Узнать больше</a>
+    }
 }

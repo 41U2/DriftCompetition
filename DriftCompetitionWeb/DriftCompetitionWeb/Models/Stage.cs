@@ -12,6 +12,7 @@ namespace DriftCompetitionWeb.Models
     {
         public Guid StageID { set; get; }
         public virtual Competition Competition { set; get; }
+        public virtual Guid CompetitionID { set; get; }
         public DateTime RegistrationStartTime { set; get; }
         public DateTime RegistrationEndTime { set; get; }
         public bool IsOver { set; get; }
@@ -54,6 +55,23 @@ namespace DriftCompetitionWeb.Models
                 return;
             m_dbContext.Stages.Remove(stage);
             m_dbContext.SaveChanges();
+        }
+
+        public Stage StageByID(Guid stageID) 
+        {
+            return m_dbContext.Stages.Where(s => s.StageID == stageID).FirstOrDefault();
+        }
+
+        public IEnumerable<Stage> AllStages()
+        {
+            return m_dbContext.Stages.Include(s=>s.Competition);
+        }
+
+        public Competition CompetitionOfStage(Stage stage)
+        {
+            if (stage == null)
+                return null;
+            return m_dbContext.Stages.FirstOrDefault().Competition;
         }
 
         public IEnumerable<Stage> AllCompetitionStages(Competition competition)

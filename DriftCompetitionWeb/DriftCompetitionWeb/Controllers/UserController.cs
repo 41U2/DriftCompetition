@@ -43,6 +43,8 @@ namespace DriftCompetitionWeb.Controllers
         public IActionResult AddCar()
         {
             IdentityUser currentUser = CurrentUser();
+            if (currentUser == null)
+                return RedirectToRoute(new { controller = "User", action = "Profile" });
             driftCompetitionDevice.carsRepository.AddCar(new Car { User = currentUser, Description = "Check add car from web-site."});
             return RedirectToRoute(new { controller = "User", action = "Profile" });
         }

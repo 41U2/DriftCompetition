@@ -1,0 +1,15 @@
+﻿@model List<Stage>
+@{
+    ViewBag.Title = "Этапы";
+}
+
+<div class="text-center">
+    <h2 class="display-3">@ViewBag.Title</h2>
+</div>
+
+<h3>Все этапы:</h3>
+@foreach (Stage stage in ViewBag.Stages)
+{
+    <h4>Соревнование: @stage.Competition.Name, место проведения: @stage.Address, цена просмотра: @stage.ViewPrice$, цена участия: @stage.ParticipationPrice</h4>
+    <a asp-controller="Stage" asp-action="Info" asp-route-stageID="@stage.StageID">Узнать больше</a>
+}

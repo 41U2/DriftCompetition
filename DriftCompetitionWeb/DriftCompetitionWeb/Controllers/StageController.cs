@@ -1,18 +1,55 @@
-using System.Runtime.InteropServices;
+using DriftCompetitionWeb.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
+using DriftCompetitionWeb.Data;
+using Microsoft.AspNetCore.Identity;
 
-// В проектах SDK, таких как этот, некоторые атрибуты сборки, которые ранее определялись
-// в этом файле, теперь автоматически добавляются во время сборки и заполняются значениями,
-// заданными в свойствах проекта. Подробные сведения о том, какие атрибуты включены
-// и как настроить этот процесс, см. на странице: https://aka.ms/assembly-info-properties.
+namespace DriftCompetitionWeb.Controllers
+{
+    public class StageController : Controller
+    {
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly DriftCompetitionDevice driftCompetitionDevice;
 
+        public StageController(ApplicationDbContext dbContext, UserManager<IdentityUser> userManager)
+        {
+            _userManager = userManager;
+            driftCompetitionDevice = new DriftCompetitionDevice(dbContext);
+        }
 
-// При установке значения false для параметра ComVisible типы в этой сборке становятся
-// невидимыми для компонентов COM. Если вам необходимо получить доступ к типу в этой
-// сборке из модели COM, установите значение true для атрибута ComVisible этого типа.
+        public IdentityUser CurrentUser()
+        {
+            var userTmp = _userManager.GetUserAsync(HttpContext.User);
+            return userTmp.Result;
+        }
 
-[assembly: ComVisible(false)]
+        public IActionResult AllStages()
+        {
+            IEnumerable<Stage> stages = driftCompetitionDevice.stageRepository.AllStages();
+            foreach (Stage stage in stages)
+                stage.Competition = driftCompetitionDevice.competitionRepository.CompetitionByID(stage.CompetitionID);
+            ViewBag.Stages = stages.ToList();
+            return View();
+        }
 
-// Следующий GUID служит для идентификации библиотеки типов typelib, если этот проект
-// будет видимым для COM.
+        public IActionResult Info(Guid stageID)
+        {
+            Stage stage = driftCompetitionDevice.stageRepository.StageByID(stageID);
+            stage.Competition = driftCompetitionDevice.competitionRepository.CompetitionByID(stage.CompetitionID);
 
-[assembly: Guid("1106b052-b33f-4529-9757-64081c4d8521")]
+            ViewBag.Stage = stage;
+            return View();
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+    }
+}

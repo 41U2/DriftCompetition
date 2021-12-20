@@ -96,3 +96,5 @@ D:\Labs\RPBD\DriftCompetition\DriftCompetitionWeb\DriftCompetitionWeb\obj\Debug\
 D:\Labs\RPBD\DriftCompetition\DriftCompetitionWeb\DriftCompetitionWeb\obj\Debug\net5.0\Razor\Views\User\CarInfo.cshtml.g.cs
 D:\Labs\RPBD\DriftCompetition\DriftCompetitionWeb\DriftCompetitionWeb\obj\Debug\net5.0\Razor\Views\Competition\AllCompetitions.cshtml.g.cs
 D:\Labs\RPBD\DriftCompetition\DriftCompetitionWeb\DriftCompetitionWeb\obj\Debug\net5.0\Razor\Views\Competition\Info.cshtml.g.cs
+D:\Labs\RPBD\DriftCompetition\DriftCompetitionWeb\DriftCompetitionWeb\obj\Debug\net5.0\Razor\Views\Stage\AllStages.cshtml.g.cs
+D:\Labs\RPBD\DriftCompetition\DriftCompetitionWeb\DriftCompetitionWeb\obj\Debug\net5.0\Razor\Views\Stage\Info.cshtml.g.cs
