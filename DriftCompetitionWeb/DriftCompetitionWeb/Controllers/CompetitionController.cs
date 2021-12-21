@@ -34,26 +34,67 @@ namespace DriftCompetitionWeb.Controllers
             ViewBag.Competitions = allCompetitions.ToList();
             return View();
         }
-        [HttpPost]
-        public IActionResult AddCompetition()
+
+        public IActionResult SelectCompetitionParams()
         {
-            Competition competition = new Competition { Name = "Второе соревнование на сайте", StagesNumber = 2, PrizePool = 10000, Format = "Single Elimination"};
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddCompetition(
+            string Name,
+            string Requirements,
+            DateTime BeginTime,
+            DateTime EndTime,
+            float PrizePool,
+            string Format,
+            int StagesNumber,
+            string Status)
+        {
+            Competition competition = new Competition { 
+                Name = Name,
+                Requirements = Requirements,
+                BeginTime = BeginTime,
+                EndTime = EndTime,
+                StagesNumber = StagesNumber, 
+                PrizePool = PrizePool, 
+                Format = Format,
+                Status = Status};
             driftCompetitionDevice.competitionRepository.AddCompetition(competition);
             return RedirectToRoute(new { controller = "Competition", action = "AllCompetitions" });
         }
 
-        [HttpPost]
-        public IActionResult AddStage(Guid competitionID)
+        public IActionResult SelectStageParams(Guid CompetitionID)
         {
-            Competition competition = driftCompetitionDevice.competitionRepository.CompetitionByID(competitionID);
+            Competition competition = driftCompetitionDevice.competitionRepository.CompetitionByID(CompetitionID);
+            if (competition == null)
+                return RedirectToRoute(new { controller = "Competition", action = "Info", competitionID = CompetitionID });
+            ViewBag.CompetitionID = CompetitionID;
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddStage(
+            Guid CompetitionID,
+            string Address,
+            DateTime RegistrationStartTime,
+            DateTime RegistrationEndTime,
+            float ParticipaitonPrice,
+            float ViewPrice)
+        {
+            Competition competition = driftCompetitionDevice.competitionRepository.CompetitionByID(CompetitionID);
+            if (competition == null)
+                return RedirectToRoute(new { controller = "Competition", action = "Info", competitionID = CompetitionID });
             Stage stage = new Stage { 
                 Competition = competition,
-                ViewPrice = 5,
-                ParticipationPrice = 40,
-                Address = "г. Воронеж, Сити парк \"Град\"",
+                Address = Address,
+                RegistrationStartTime = RegistrationStartTime,
+                RegistrationEndTime = RegistrationEndTime,
+                ParticipationPrice = ParticipaitonPrice,
+                ViewPrice = ViewPrice
             };
             driftCompetitionDevice.stageRepository.AddStage(stage);
-            return RedirectToRoute(new { controller = "Competition", action = "Info", competitionID = competitionID});
+            return RedirectToRoute(new { controller = "Competition", action = "Info", competitionID = CompetitionID});
         }
 
         public IActionResult Info(Guid competitionID)

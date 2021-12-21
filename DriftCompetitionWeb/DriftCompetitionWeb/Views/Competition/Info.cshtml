@@ -5,10 +5,10 @@
 
 <div class="text-center">
     <h3 class="display-3">@ViewBag.Title</h3>
-    
+
 </div>
 
-<h4>Название: @ViewBag.Competition.Name</h4>
+<h5>Название: @ViewBag.Competition.Name</h5>
 <h5>Формат: @ViewBag.Competition.Format</h5>
 <h5>Призовой фонд: @ViewBag.Competition.PrizePool</h5>
 <h5>Количество этапов: @ViewBag.Competition.StagesNumber</h5>
@@ -17,13 +17,16 @@
 <h5>Требования к участнику: @ViewBag.Competition.Requirements</h5>
 
 
-<h4>Объявленные этапы: </h4>
+<h5>Объявленные этапы: </h5>
 @foreach (Stage stage in ViewBag.Stages)
 {
     <p>Этап в @stage.Address</p>
     <a asp-controller="Stage" asp-action="Info" asp-route-stageID="@stage.StageID">Узнать больше</a>
 }
-<form action="AddStage" method="post">
-    <input type="hidden" name="competitionID" value="@ViewBag.CompetitionID">
-    <input type="submit" value="Добавить этап">
-</form>
+@if (User.Identity.Name != null)
+{
+    <form action="SelectStageParams" method="post">
+        <input type="hidden" name="CompetitionID" value="@ViewBag.CompetitionID">
+        <input type="submit" value="Добавить этап">
+    </form>
+}

@@ -4,15 +4,19 @@
 }
 
 <div class="text-center">
-    <h2 class="display-3">@ViewBag.Title</h2>
+    <h3 class="display-3">@ViewBag.Title</h3>
 </div>
 
 
 
 <h3>Все соревнования:</h3>
-<form action="AddCompetition" method="post">
+
+@if (User.Identity.Name != null)
+{
+    <form action="SelectCompetitionParams" method="post">
     <input type="submit" value="Добавить соревнование">
-</form>
+    </form>
+}
 @foreach (Competition competition in ViewBag.Competitions)
 {
     <h5>Название: @competition.Name, формат: @competition.Format, призовой фонд: @competition.PrizePool$, количество этапов: @competition.StagesNumber</h5>

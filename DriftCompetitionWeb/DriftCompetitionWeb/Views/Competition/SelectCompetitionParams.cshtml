@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "Регистрация соревнования";
+}
+
+<div class="text-center">
+    <h3 class="display-3">@ViewBag.Title</h3>
+    <form action="AddCompetition" method="post">
+        <input type="text" name="Name" placeholder="Название" width=1000>
+        <h3></h3>
+        <input type="text" name="Requirements" placeholder="Требования">
+        <h3></h3>
+        <input type="datetime" name="BeginTime" placeholder="Время начала">
+        <h3></h3>
+        <input type="datetime" name="EndTime" placeholder="Время окончания">
+        <h3></h3>
+        <input type="number" name="PrizePool" placeholder="Призовой фонд">
+        <h3></h3>
+        <input type="text" name="Format" placeholder="Формат проведения">
+        <h3></h3>
+        <input type="number" name="StagesNumber" placeholder="Число этапов">
+        <h3></h3>
+        <input type="text" name="Status" placeholder="Статус">
+        <h3></h3>
+        <input type="submit" value="Добавить соревнование">
+    </form>
+</div>
+
