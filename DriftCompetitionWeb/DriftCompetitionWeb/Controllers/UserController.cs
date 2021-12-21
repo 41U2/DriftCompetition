@@ -40,12 +40,14 @@ namespace DriftCompetitionWeb.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddCar()
+        public IActionResult AddCar(string Name)
         {
             IdentityUser currentUser = CurrentUser();
             if (currentUser == null)
                 return RedirectToRoute(new { controller = "User", action = "Profile" });
-            driftCompetitionDevice.carsRepository.AddCar(new Car { User = currentUser, Description = "Check add car from web-site."});
+            driftCompetitionDevice.carsRepository.AddCar(new Car { 
+                User = currentUser, 
+                Description = Name});
             return RedirectToRoute(new { controller = "User", action = "Profile" });
         }
 
@@ -66,11 +68,20 @@ namespace DriftCompetitionWeb.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddCarNumber(Guid carID)
+        public IActionResult AddCarNumber(
+            Guid CarID,
+            string Number,
+            int Region)
         {
-            Car car = driftCompetitionDevice.carsRepository.CarByID(carID);
-            driftCompetitionDevice.carsRepository.AddCarNumber(new CarNumber { Car = car, Number = "|mm123m|36|" });
-            return RedirectToRoute(new { controller = "User", action = "CarInfo", carID = carID });
+            string resultNumber = "[" + Number + "|" + Region + "rus]";
+            Car car = driftCompetitionDevice.carsRepository.CarByID(CarID);
+            if (car == null)
+                return RedirectToRoute(new { controller = "User", action = "CarInfo", carID = CarID });
+            driftCompetitionDevice.carsRepository.AddCarNumber(new CarNumber { 
+                Car = car, 
+                Number = resultNumber 
+            });
+            return RedirectToRoute(new { controller = "User", action = "CarInfo", carID = CarID });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

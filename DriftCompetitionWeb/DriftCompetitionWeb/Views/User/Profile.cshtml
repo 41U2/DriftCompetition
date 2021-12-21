@@ -18,12 +18,15 @@ else
 {
     <h5>Имя: @User.Identity.Name</h5>
     <h5>Машины: </h5>
-    <form action="AddCar" method="post">
-        <input type="submit" value="Добавить новую машину">
-    </form>
     @foreach (Car car in ViewBag.Cars)
     {
         <h5>Описание: @car.Description</h5>
         <a asp-controller="user" asp-action="CarInfo" asp-route-carID="@car.CarID">Узнать больше</a>
     }
+    <div class="text-center">
+        <form action="AddCar" method="post">
+            <input type="text" name="Name" placeholder="Название машины">
+            <input type="submit" value="Добавить новую машину">
+        </form>
+    </div>
 }

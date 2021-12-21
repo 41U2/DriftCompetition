@@ -7,14 +7,18 @@
     <h3 class="display-3">@ViewBag.Title</h3>
 </div>
 
-
 <h5>Описание: @ViewBag.Description</h5>
 <h5>Номера машины:</h5>
-<form action="AddCarNumber" method="post">
-    <input type="hidden" name="carID" value="@ViewBag.carID"> 
-    <input type="submit" value="Добавить новый номер машины">
-</form>
 @foreach (CarNumber number in ViewBag.Numbers)
 {
     <h5>@number.Number</h5>
 }
+
+<div class="text-center">
+    <form action="AddCarNumber" method="post">
+        <input type="hidden" name="CarID" value="@ViewBag.carID">
+        <input type="text" name="Number" placeholder="Номер машины">
+        <input type="number" name="Region" placeholder="Регион">
+        <input type="submit" value="Добавить новый номер машины">
+    </form>
+</div>
