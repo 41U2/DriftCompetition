@@ -2,26 +2,48 @@
     ViewBag.Title = "Регистрация соревнования";
 }
 
-<div class="text-center">
-    <h3 class="display-3">@ViewBag.Title</h3>
-    <form action="AddCompetition" method="post">
-        <input type="text" name="Name" placeholder="Название" width=1000>
-        <h3></h3>
-        <input type="text" name="Requirements" placeholder="Требования">
-        <h3></h3>
-        <input type="datetime" name="BeginTime" placeholder="Время начала">
-        <h3></h3>
-        <input type="datetime" name="EndTime" placeholder="Время окончания">
-        <h3></h3>
-        <input type="number" name="PrizePool" placeholder="Призовой фонд">
-        <h3></h3>
-        <input type="text" name="Format" placeholder="Формат проведения">
-        <h3></h3>
-        <input type="number" name="StagesNumber" placeholder="Число этапов">
-        <h3></h3>
-        <input type="text" name="Status" placeholder="Статус">
-        <h3></h3>
-        <input type="submit" value="Добавить соревнование">
-    </form>
-</div>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Поля</title>
+    <style type="text/css">
+        .competition_info {
+            width: 300px; /* Ширина контента */
+            height: 370px;
+            margin-left: auto;
+            margin-right: auto; /* Значение отступов */
+            border: 2px solid silver; /* Параметры границы */
+            padding: 10px;
+            border-radius: 15px;
+            overflow-y: auto;
+            background: #ADD8E6;
+        }
+    </style>
+</head>
 
+
+<body>
+    <div class="text-center">
+        <h3 class="display-3">@ViewBag.Title</h3>
+        <div class=competition_info>
+            <form action="AddCompetition" method="post">
+                <input type="text" name="Name" placeholder="Название" width=1000>
+                <h3></h3>
+                <input type="text" name="Requirements" placeholder="Требования">
+                <h3></h3>
+                <input type="datetime" name="BeginTime" placeholder="Время начала">
+                <h3></h3>
+                <input type="datetime" name="EndTime" placeholder="Время окончания">
+                <h3></h3>
+                <input type="number" name="PrizePool" placeholder="Призовой фонд">
+                <h3></h3>
+                <input type="text" name="Format" placeholder="Формат проведения">
+                <h3></h3>
+                <input type="number" name="StagesNumber" placeholder="Число этапов">
+                <h3></h3>
+                <input type="text" name="Status" placeholder="Статус">
+                <h3></h3>
+                <input type="submit" value="Добавить соревнование">
+            </form>
+        </div>
+    </div>
+</body>

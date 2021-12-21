@@ -3,22 +3,58 @@
     ViewBag.Title = "Соревнования";
 }
 
-<div class="text-center">
-    <h3 class="display-3">@ViewBag.Title</h3>
-</div>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Поля</title>
+    <style type="text/css">
+        .competition {
+            float: left; 
+            width: 330px; /* Ширина контента */
+            height: 300px;
+            margin: 7px; /* Значение отступов */
+            border: 2px solid silver; /* Параметры границы */
+            padding: 10px;
+            border-radius: 15px;
+            overflow-y: auto;
+            background: #ADD8E6;
+        }
+        .container {
+            overflow: hidden;
+            width: 100%;
+        }
+    </style>
+</head>
 
+<body>
 
+    <div class="text-center">
+        <h3 class="display-3">@ViewBag.Title</h3>
+    </div>
 
-<h3>Все соревнования:</h3>
+    <h3>Все соревнования:</h3>
+    <div class="container">
+        @foreach (Competition competition in ViewBag.Competitions)
+        {
+            <div class="competition">
+                <h5>Название:</h5>
+                <h6>@competition.Name</h6>
+                <h5>Формат:</h5>
+                <h6>@competition.Format</h6>
+                <h5>Призовой фонд:</h5>
+                <h6>@competition.PrizePool$</h6>
+                <h5>Количество этапов:</h5>
+                <h6>@competition.StagesNumber</h6>
+                <a asp-controller="Competition" asp-action="Info" asp-route-competitionID="@competition.CompetitionID">Узнать больше</a>
+            </div>
+        }
+    </div>
+    @if (User.Identity.Name != null)
+    {
+        <div class="text-center">
+            <form action="SelectCompetitionParams" method="post">
+                <input type="submit" value="Добавить соревнование">
+            </form>
+        </div>
+    }
 
-@if (User.Identity.Name != null)
-{
-    <form action="SelectCompetitionParams" method="post">
-    <input type="submit" value="Добавить соревнование">
-    </form>
-}
-@foreach (Competition competition in ViewBag.Competitions)
-{
-    <h5>Название: @competition.Name, формат: @competition.Format, призовой фонд: @competition.PrizePool$, количество этапов: @competition.StagesNumber</h5>
-    <a asp-controller="Competition" asp-action="Info" asp-route-competitionID="@competition.CompetitionID">Узнать больше</a>
-}
+</body>

@@ -3,13 +3,49 @@
     ViewBag.Title = "Этапы";
 }
 
-<div class="text-center">
-    <h3 class="display-3">@ViewBag.Title</h3>
-</div>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Поля</title>
+    <style type="text/css">
+        .stage {
+            float: left;
+            width: 330px; /* Ширина контента */
+            height: 300px;
+            margin: 7px; /* Значение отступов */
+            border: 2px solid silver; /* Параметры границы */
+            padding: 10px;
+            border-radius: 15px;
+            overflow-y: auto;
+            background: #9CEE90;
+        }
 
-<h3>Все этапы:</h3>
-@foreach (Stage stage in ViewBag.Stages)
-{
-    <h4>Соревнование: @stage.Competition.Name, место проведения: @stage.Address, цена просмотра: @stage.ViewPrice$, цена участия: @stage.ParticipationPrice</h4>
-    <a asp-controller="Stage" asp-action="Info" asp-route-stageID="@stage.StageID">Узнать больше</a>
-}
+        .container {
+            overflow: hidden;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="text-center">
+        <h3 class="display-3">@ViewBag.Title</h3>
+    </div>
+
+    <h3>Все этапы:</h3>
+    <div class=container>
+        @foreach (Stage stage in ViewBag.Stages)
+        {
+            <div class=stage>
+                <h5>Соревнование: </h5>
+                <h6>@stage.Competition.Name</h6>
+                <h5>Место проведения: </h5>
+                <h6>@stage.Address</h6>
+                <h5>Цена просмотра: </h5>
+                <h6>@stage.ViewPrice$</h6>
+                <h5>Цена участия: </h5>
+                <h6>@stage.ParticipationPrice$</h6>
+            <a asp-controller="Stage" asp-action="Info" asp-route-stageID="@stage.StageID">Узнать больше</a>
+            </div>
+        }
+    </div>
+</body>
