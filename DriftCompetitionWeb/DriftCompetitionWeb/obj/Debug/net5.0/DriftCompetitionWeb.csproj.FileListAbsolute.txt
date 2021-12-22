@@ -100,3 +100,4 @@ D:\Labs\RPBD\DriftCompetition\DriftCompetitionWeb\DriftCompetitionWeb\obj\Debug\
 D:\Labs\RPBD\DriftCompetition\DriftCompetitionWeb\DriftCompetitionWeb\obj\Debug\net5.0\Razor\Views\Stage\Info.cshtml.g.cs
 D:\Labs\RPBD\DriftCompetition\DriftCompetitionWeb\DriftCompetitionWeb\obj\Debug\net5.0\Razor\Views\Competition\SelectCompetitionParams.cshtml.g.cs
 D:\Labs\RPBD\DriftCompetition\DriftCompetitionWeb\DriftCompetitionWeb\obj\Debug\net5.0\Razor\Views\Competition\SelectStageParams.cshtml.g.cs
+D:\Labs\RPBD\DriftCompetition\DriftCompetitionWeb\DriftCompetitionWeb\obj\Debug\net5.0\Razor\Views\Garage\Cars.cshtml.g.cs

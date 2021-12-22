@@ -1,0 +1,69 @@
+﻿@model List<Car>
+@{
+    ViewBag.Title = "Гараж";
+}
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Поля</title>
+    <style type="text/css">
+        .car {
+            float: left; 
+            width: 330px; /* Ширина контента */
+            height: 300px;
+            margin: 7px; /* Значение отступов */
+            border: 2px solid silver; /* Параметры границы */
+            padding: 10px;
+            border-radius: 15px;
+            overflow-y: auto;
+            background: #F08080;
+        }
+        .container {
+            overflow: hidden;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="text-center">
+        <h3 class="display-3">@ViewBag.Title</h3>
+    </div>
+
+    <h3>Машины:</h3>
+    <div class="container">
+        @for (int iCar = 0; iCar < ViewBag.Cars.Count; ++iCar)
+        {
+        <div class="car">
+            <h5>Название:</h5>
+            <h6>@ViewBag.Cars[iCar].Description</h6>
+            <h5>Номера:</h5>
+            @foreach (CarNumber carNumber in ViewBag.CarNumbers[iCar])
+            {
+                <h6>@carNumber.Number</h6>
+            }
+            @if (User.Identity.Name != null)
+            { 
+                <form action="AddCarNumber" method="post">
+                    <input type="hidden" name="CarID" value="@ViewBag.Cars[iCar].CarID">
+                    <input type="text" name="Number" placeholder="Номер машины">
+                    <input type="number" name="Region" placeholder="Регион">
+                    <input type="submit" value="Добавить новый номер машины">
+                </form>
+            }
+            </div>
+        }
+    </div>
+
+    @if (User.Identity.Name != null)
+    {
+        <div class="text-center">
+            <form action="AddCar" method="post">
+                <input type="text" name="Name" placeholder="Название машины">
+                <input type="submit" value="Добавить новую машину">
+            </form>
+        </div>
+    }
+
+</body>
