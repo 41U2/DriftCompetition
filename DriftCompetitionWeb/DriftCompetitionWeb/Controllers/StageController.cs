@@ -42,8 +42,26 @@ namespace DriftCompetitionWeb.Controllers
             Stage stage = driftCompetitionDevice.stageRepository.StageByID(stageID);
             stage.Competition = driftCompetitionDevice.competitionRepository.CompetitionByID(stage.CompetitionID);
 
+            IdentityUser organizer = driftCompetitionDevice.StageOrganizer(stage);
+            ViewBag.Organizer = organizer;
             ViewBag.Stage = stage;
+
+            List<IdentityUser> participants = driftCompetitionDevice.StageParticipants(stage);
+            ViewBag.Participants = participants;
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult RegistrateToStage(Guid StageID)
+        {
+            IdentityUser currentUser = CurrentUser();
+            if (currentUser == null)
+                return RedirectToRoute(new { Controller = "Stage", action = "Info", stageID = StageID });
+            Stage stage = driftCompetitionDevice.stageRepository.StageByID(StageID);
+            if (stage == null)
+                return RedirectToRoute(new { Controller = "Stage", action = "Info", stageID = StageID });
+            driftCompetitionDevice.RegistrateUserToStage(currentUser, stage);
+            return RedirectToRoute(new { Controller = "Stage", action = "Info", stageID = StageID });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

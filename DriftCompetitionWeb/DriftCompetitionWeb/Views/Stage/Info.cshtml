@@ -8,15 +8,30 @@
     <title>Поля</title>
     <style type="text/css">
         .stage {
-            width: 330px; /* Ширина контента */
+            width: 500px; /* Ширина контента */
             height: 400px;
-            margin-left: auto;
-            margin-right: auto;
+            float: left;
+            margin: 7px;
             border: 2px solid silver; /* Параметры границы */
             padding: 10px;
             border-radius: 15px;
             overflow-y: auto;
             background: #9CEE90;
+        }
+        .participants {
+            width: 500px; /* Ширина контента */
+            height: 400px;
+            float: right;
+            margin: 7px;
+            border: 2px solid silver; /* Параметры границы */
+            padding: 10px;
+            border-radius: 15px;
+            overflow-y: auto;
+            background: #E0FFFF;
+        }
+        .container {
+            overflow: hidden;
+            width: 100%;
         }
     </style>
 </head>
@@ -27,19 +42,40 @@
         <h3 class="display-3">@ViewBag.Title</h3>
     </div>
 
-    <div class=stage>
-        <h5>Соревнование: </h5>
-        <h6>@ViewBag.Stage.Competition.Name</h6>
-        <h5>Место проведения: </h5>
-        <h6>@ViewBag.Stage.Address</h6>
-        <h5>Старт регистрации: </h5>
-        <h6>@ViewBag.Stage.RegistrationStartTime</h6>
-        <h5>Окончание регистрации: </h5>
-        <h6>@ViewBag.Stage.RegistrationEndTime</h6>
-        <h5>Цена просмотра: </h5>
-        <h6>@ViewBag.Stage.ViewPrice$</h6>
-        <h5>Цена участия: </h5>
-        <h6>@ViewBag.Stage.ParticipationPrice$</h6>
+    <div class="container">
+        <div class=stage>
+            <h5>Соревнование: </h5>
+            <h6>@ViewBag.Stage.Competition.Name</h6>
+            <h5>Место проведения: </h5>
+            <h6>@ViewBag.Stage.Address</h6>
+            <h5>Организатор: </h5>
+            <h6>@ViewBag.Organizer.UserName</h6>
+            <h5>Старт регистрации: </h5>
+            <h6>@ViewBag.Stage.RegistrationStartTime</h6>
+            <h5>Окончание регистрации: </h5>
+            <h6>@ViewBag.Stage.RegistrationEndTime</h6>
+            <h5>Цена просмотра: </h5>
+            <h6>@ViewBag.Stage.ViewPrice$</h6>
+            <h5>Цена участия: </h5>
+            <h6>@ViewBag.Stage.ParticipationPrice$</h6>
+        </div>
+        <div class="participants">
+            <h5>Участники: </h5>
+            @foreach (Microsoft.AspNetCore.Identity.IdentityUser participant in ViewBag.Participants)
+            {
+                <h6>@participant.UserName</h6>
+            }
+        </div>
     </div>
+
+    @if (User.Identity.Name != null)
+    {
+        <div class="text-center">
+            <form action="RegistrateToStage" method="post">
+                <input type="hidden" name="StageID" value="@ViewBag.Stage.StageID">
+                <input type="submit" value="Зарегистрироваться">
+            </form>
+        </div>
+    }
 
 </body>

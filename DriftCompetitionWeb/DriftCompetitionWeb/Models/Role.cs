@@ -22,8 +22,11 @@ namespace DriftCompetitionWeb.Models
     {
         public Guid UserToRoleID { set; get; }
         public virtual IdentityUser User { set; get; }
+        public virtual string UserId { set; get; }
         public virtual Stage Stage { set; get; }
+        public virtual Guid StageID { set; get; }
         public virtual Role Role { set; get; }
+        public virtual Guid RoleID { set; get; }
     }
 
     public class RoleRepository
@@ -35,7 +38,7 @@ namespace DriftCompetitionWeb.Models
             m_dbContext = dbContext;
         }
 
-        public void AddRole(Role role)
+        private void AddRole(Role role)
         {
             if (role == null)
                 return;
@@ -43,14 +46,14 @@ namespace DriftCompetitionWeb.Models
             m_dbContext.SaveChanges();
         }
 
-        public void RemoveRole(Role role)
+        private void RemoveRole(Role role)
         {
             if (role == null)
                 return;
             m_dbContext.DriftCompetitionRoles.Remove(role);
             m_dbContext.SaveChanges();
         }
-        public void AddDefaultRoles()
+        private void AddDefaultRoles()
         {
             m_dbContext.DriftCompetitionRoles.Add(new Role { Name = "Participant"});
             m_dbContext.DriftCompetitionRoles.Add(new Role { Name = "Organizer" });
@@ -58,9 +61,23 @@ namespace DriftCompetitionWeb.Models
             m_dbContext.SaveChanges();
         }
 
-        public Role RoleByName(string name)
+        private Role RoleByName(string name)
         {
             return m_dbContext.DriftCompetitionRoles.Where(r => r.Name == name).FirstOrDefault();
+        }
+        public Role ParticipantRole()
+        {
+            return RoleByName("Participant");
+        }
+
+        public Role OrganizerRole()
+        {
+            return RoleByName("Organizer");
+        }
+
+        public Role RefereeRole()
+        {
+            return RoleByName("Referee");
         }
 
         public void AddUserToRole(UserToRole userToRole) 
@@ -79,7 +96,7 @@ namespace DriftCompetitionWeb.Models
             m_dbContext.SaveChanges();
         }
 
-        public IEnumerable<UserToRole> AllUsersWithRoleInStage(Stage stage, string role)
+        public IEnumerable<UserToRole> AllUsersWithRoleInStage(Stage stage, Role role)
         {
             if (stage == null || role == null)
                 return null;
@@ -88,7 +105,7 @@ namespace DriftCompetitionWeb.Models
                 Include(utr => utr.Stage).
                 Include(utr => utr.Role).
                 Where(utr => utr.Stage == stage).
-                Where(utr => utr.Role.Name == role);
+                Where(utr => utr.Role == role);
         }
 
         public IEnumerable<UserToRole> AllUsersRoles(IdentityUser user)
@@ -100,6 +117,17 @@ namespace DriftCompetitionWeb.Models
                 Include(utr => utr.User).
                 Include(utr => utr.Role).
                 Where(utr => utr.User == user);
+        }
+
+        public UserToRole UserToRoleByAllParams(IdentityUser user, Role role, Stage stage)
+        {
+            return m_dbContext.UsersToRoles.
+                Include(utr => utr.Stage).
+                Include(utr => utr.User).
+                Include(utr => utr.Role).
+                Where(utr => utr.User == user).
+                Where(utr => utr.Stage == stage).
+                Where(utr => utr.Role == role).FirstOrDefault();
         }
     }
 }

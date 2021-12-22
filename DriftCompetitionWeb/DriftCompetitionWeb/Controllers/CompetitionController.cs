@@ -82,6 +82,9 @@ namespace DriftCompetitionWeb.Controllers
             float ParticipaitonPrice,
             float ViewPrice)
         {
+            IdentityUser currentUser = CurrentUser();
+            if (currentUser == null)
+                return RedirectToRoute(new { controller = "Competition", action = "Info", competitionID = CompetitionID });
             Competition competition = driftCompetitionDevice.competitionRepository.CompetitionByID(CompetitionID);
             if (competition == null)
                 return RedirectToRoute(new { controller = "Competition", action = "Info", competitionID = CompetitionID });
@@ -94,6 +97,7 @@ namespace DriftCompetitionWeb.Controllers
                 ViewPrice = ViewPrice
             };
             driftCompetitionDevice.stageRepository.AddStage(stage);
+            driftCompetitionDevice.AddStageOrganizer(currentUser, stage);
             return RedirectToRoute(new { controller = "Competition", action = "Info", competitionID = CompetitionID});
         }
 
