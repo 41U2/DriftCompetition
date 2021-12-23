@@ -1,20 +1,61 @@
-﻿@model List<Car>
+﻿@model List<StageResult>
 @{
     ViewBag.Title = "Профиль";
 }
 
-<div class="text-center">
-    <h3 class="display-3">@ViewBag.Title</h3>
-</div>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Поля</title>
+    <style type="text/css">
+        .stage {
+            float: left;
+            width: 330px; /* Ширина контента */
+            height: 200px;
+            margin: 7px; /* Значение отступов */
+            border: 2px solid silver; /* Параметры границы */
+            padding: 10px;
+            border-radius: 15px;
+            overflow-y: auto;
+            background: #9CEE90;
+        }
 
+        .container {
+            overflow: hidden;
+            width: 100%;
+        }
+    </style>
+</head>
 
-@if (User.Identity.Name == null)
-{
+<body>
     <div class="text-center">
-        <h3>Не авторизован</h3>
+        <h3 class="display-3">@ViewBag.Title</h3>
     </div>
-}
-else
-{
 
-}
+
+    @if (User.Identity.Name == null)
+    {
+        <div class="text-center">
+            <h3>Не авторизован</h3>
+        </div>
+    }
+    else
+    {
+        <h5></h5>
+        <h5>Имя пользователя:</h5>
+        <h6>@User.Identity.Name</h6>
+        <h5>Участия в этапах: </h5>
+        <div class=container>
+            @foreach (StageResult stageResult in ViewBag.StagesResults)
+            {
+                <div class=stage>
+                    <h5>Место проведения: </h5>
+                    <h6>@stageResult.Stage.Address</h6>
+                    <h5>Занятое место:</h5>
+                    <h6>@stageResult.ResultPlace</h6>
+                    <a asp-controller="Stage" asp-action="Info" asp-route-stageID="@stageResult.Stage.StageID">Узнать больше</a>
+                </div>
+            }
+        </div>
+
+    }
+</body>

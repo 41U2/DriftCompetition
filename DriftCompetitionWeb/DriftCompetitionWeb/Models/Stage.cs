@@ -27,7 +27,9 @@ namespace DriftCompetitionWeb.Models
     {
         public Guid StageResultID { set; get; }
         public virtual Stage Stage { set; get; }
+        public virtual Guid StageID { set; get; }
         public virtual IdentityUser User { set; get; }
+        public virtual string UserId { set; get; }
         public virtual CarNumber CarNumber { set; get; }
         public int ResultPlace { set; get; }
     }
@@ -102,6 +104,14 @@ namespace DriftCompetitionWeb.Models
                 return;
             m_dbContext.StageResults.Remove(stageResult);
             m_dbContext.SaveChanges();
+        }
+
+        public IEnumerable<StageResult> AllUsersStagesResults(IdentityUser user)
+        {
+            if (user == null)
+                return null;
+            return m_dbContext.StageResults.
+                Where(sr => sr.User == user);
         }
 
         public StageResult UsersStageResult(IdentityUser user, Stage stage)

@@ -30,6 +30,13 @@ namespace DriftCompetitionWeb.Controllers
 
         public IActionResult Profile()
         {
+            IdentityUser currentUser = CurrentUser();
+            IEnumerable<StageResult> allStagesResults = driftCompetitionDevice.stageRepository.AllUsersStagesResults(currentUser);
+            foreach (StageResult stageResult in allStagesResults)
+            {
+                stageResult.Stage = driftCompetitionDevice.stageRepository.StageByID(stageResult.StageID);
+            }
+            ViewBag.StagesResults = allStagesResults.ToList();
             return View();
         }
 
