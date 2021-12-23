@@ -21,7 +21,9 @@ namespace DriftCompetitionWeb.Models
     {
         public Guid RaceResultID { set; get; }
         public virtual Race Race { set; get; }
+        public virtual Guid RaceID { set; get; }
         public virtual IdentityUser User { set; get; }
+        public virtual string UserId { set; get; }
         public virtual CarNumber CarNumber { set; get; }
         public bool SuccessfullyEnded { set; get; }
         public float AngleGrade { set; get; }

@@ -8,7 +8,7 @@ using System.Data.Entity;
 
 namespace DriftCompetitionWeb.Models
 {
-    public class User : Microsoft.AspNetCore.Identity.IdentityUser
+    public class User : IdentityUser
     {
         public virtual ICollection<Car> Cars { set; get; }
         public virtual ICollection<CompetitionResult> CompetitionResults { set; get; }

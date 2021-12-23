@@ -64,6 +64,14 @@ namespace DriftCompetitionWeb.Controllers
             return RedirectToRoute(new { Controller = "Stage", action = "Info", stageID = StageID });
         }
 
+        [HttpPost]
+        public IActionResult EventStage(Guid StageID)
+        {
+            Stage stage = driftCompetitionDevice.stageRepository.StageByID(StageID);
+            driftCompetitionDevice.EventStage(stage);
+            return RedirectToRoute(new { Controller = "Stage", action = "Info", stageID = StageID });
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

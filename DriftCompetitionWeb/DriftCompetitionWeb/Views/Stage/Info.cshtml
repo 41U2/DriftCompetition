@@ -68,7 +68,7 @@
         </div>
     </div>
 
-    @if (User.Identity.Name != null)
+    @if (User.Identity.Name != null && !ViewBag.Stage.IsOver)
     {
         <div class="text-center">
             <form action="RegistrateToStage" method="post">
@@ -77,5 +77,16 @@
             </form>
         </div>
     }
+
+    @if (User.Identity.Name == ViewBag.Organizer.UserName && !ViewBag.Stage.IsOver)
+    {
+        <div class="text-center">
+            <form action="EventStage" method="post">
+                <input type="hidden" name="StageID" value="@ViewBag.Stage.StageID">
+                <input type="submit" value="Провести этап">
+            </form>
+        </div>
+    }
+
 
 </body>

@@ -41,6 +41,11 @@ namespace DriftCompetitionWeb.Models
             m_dbContext = dbContext;
         }
 
+        public void SaveChanges() 
+        {
+            m_dbContext.SaveChanges();
+        }
+
         public void AddStage(Stage stage)
         {
             if (stage == null)
