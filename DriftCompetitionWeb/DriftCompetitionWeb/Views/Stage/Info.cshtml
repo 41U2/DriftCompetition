@@ -29,6 +29,18 @@
             overflow-y: auto;
             background: #E0FFFF;
         }
+        .results {
+            width: 500px; /* Ширина контента */
+            height: 400px;
+            
+            margin-left: auto;
+            margin-right: auto;
+            border: 2px solid silver; /* Параметры границы */
+            padding: 10px;
+            border-radius: 15px;
+            overflow-y: auto;
+            background: #FFEFD5;
+        }
         .container {
             overflow: hidden;
             width: 100%;
@@ -88,5 +100,19 @@
         </div>
     }
 
+    @if (ViewBag.Stage.IsOver)
+    {
+        <div class="results">
+            <h5>Результаты: </h5>
+            @for (int iRound = ViewBag.RoundPairsNames.Count; iRound > 0; --iRound)
+            {
+                <h5>Раунд @iRound</h5>
+                foreach (Tuple<string, string> usersPair in ViewBag.RoundPairsNames[iRound - 1])
+                {
+                        <h6>@usersPair.Item1 (победа) - @usersPair.Item2 (поражение)</h6>
+                }
+            }
+        </div>
+     }
 
 </body>

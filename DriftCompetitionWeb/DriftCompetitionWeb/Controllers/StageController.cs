@@ -46,8 +46,10 @@ namespace DriftCompetitionWeb.Controllers
             ViewBag.Organizer = organizer;
             ViewBag.Stage = stage;
 
-            var check = driftCompetitionDevice.allRoundsPairsOfStage(stage);
-
+            List<List<Tuple<IdentityUser, IdentityUser>>> roundsPairs = driftCompetitionDevice.allRoundsPairsOfStage(stage);
+            List<List<Tuple<string, string>>> roundPairsNames = driftCompetitionDevice.RoundPairsUsersToRoundPairsNames(roundsPairs);
+            ViewBag.RoundPairsNames = roundPairsNames;
+            
             List<IdentityUser> participants = driftCompetitionDevice.StageParticipants(stage);
             ViewBag.Participants = participants;
             return View();

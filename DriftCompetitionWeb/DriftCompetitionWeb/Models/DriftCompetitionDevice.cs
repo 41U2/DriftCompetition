@@ -218,6 +218,11 @@ namespace DriftCompetitionWeb.Models
 
         public List<List<Tuple<IdentityUser, IdentityUser>>> allRoundsPairsOfStage(Stage stage)
         {
+            if (stage == null)
+                return new List<List<Tuple<IdentityUser, IdentityUser>>>{ };
+            if (!stage.IsOver)
+                return new List<List<Tuple<IdentityUser, IdentityUser>>> { };
+
             List<IdentityUser> stageParticipants = StageParticipants(stage);
             int nRounds = NRounds(stageParticipants.Count);
 
@@ -234,15 +239,48 @@ namespace DriftCompetitionWeb.Models
                         roundList.Add(new Tuple<IdentityUser, IdentityUser>(null, null));
                         continue;
                     }
-                    string loserID = raceRepository.ResultByPlace(race, 2).UserId;
-                    string winnerID = raceRepository.ResultByPlace(race, 1).UserId;
 
-                    IdentityUser loser = userRepository.UserByID(loserID);
-                    IdentityUser winner = userRepository.UserByID(winnerID);
+                    RaceResult loserResult = raceRepository.ResultByPlace(race, 2);
+                    RaceResult winnerResult = raceRepository.ResultByPlace(race, 1);
 
+                    IdentityUser loser = null;
+                    IdentityUser winner = null;
+
+                    if (loserResult != null)
+                    {
+                        string loserID = loserResult.UserId;
+                        loser = userRepository.UserByID(loserID);
+                    }
+                    if (winnerResult != null)
+                    {
+                        string winnerID = winnerResult.UserId;
+                        winner = userRepository.UserByID(winnerID);
+                    }
                     roundList.Add(new Tuple<IdentityUser, IdentityUser>(winner, loser));
                 }
                 resultList.Add(roundList);
+            }
+            return resultList;
+        }
+
+        public List<List<Tuple<string, string>>> RoundPairsUsersToRoundPairsNames(
+            List<List<Tuple<IdentityUser, IdentityUser>>> roundPairsUsers)
+        {
+            List<List<Tuple<string, string>>> resultList = new List<List<Tuple<string, string>>> { };
+            for (int iRow = 0; iRow < roundPairsUsers.Count; ++iRow)
+            {
+                List<Tuple<string, string>> rowList = new List<Tuple<string, string>> { };
+                for (int iCol = 0; iCol < roundPairsUsers[iRow].Count; ++iCol)
+                {
+                    string firstStr = "Отсутствует";
+                    string secondStr = "Отсутствует";
+                    if (roundPairsUsers[iRow][iCol].Item1 != null)
+                        firstStr = roundPairsUsers[iRow][iCol].Item1.UserName;
+                    if (roundPairsUsers[iRow][iCol].Item2 != null)
+                        secondStr = roundPairsUsers[iRow][iCol].Item2.UserName;
+                    rowList.Add(new Tuple<string, string>(firstStr, secondStr));
+                }
+                resultList.Add(rowList);
             }
             return resultList;
         }
