@@ -66,6 +66,14 @@ namespace DriftCompetitionWeb.Models
                 Where(r => r.Stage == stage);
         }
 
+        public Race RaceInStageByOlympicNumber(Stage stage, int olympicNumber)
+        {
+            return m_dbContext.Races.
+                Where(r => r.IndexInOlympicSystemp == olympicNumber).
+                Where(r => r.Stage == stage).
+                FirstOrDefault();
+        }
+
         public void AddRaceResult(RaceResult raceResult)
         {
             if (raceResult == null)
@@ -80,6 +88,14 @@ namespace DriftCompetitionWeb.Models
                 return;
             m_dbContext.RaceResults.Remove(raceResult);
             m_dbContext.SaveChanges();
+        }
+
+        public RaceResult ResultByPlace(Race race, int place)
+        {
+            return m_dbContext.RaceResults.
+                Where(r => r.Race == race).
+                Where(r => r.ResultPlace == place).
+                FirstOrDefault();
         }
 
         public IEnumerable<RaceResult> AllUsersRaceResultsInStage(IdentityUser user, Stage stage)

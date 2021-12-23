@@ -158,33 +158,37 @@ namespace DriftCompetitionWeb.Models
             };
             raceRepository.AddRace(race);
 
-            RaceResult loserRaceResult = new RaceResult 
+            if (loser != null)
             {
-                User = loser,
-                Race = race,
-                ResultPlace = 2
-            };
-            raceRepository.AddRaceResult(loserRaceResult);
+                RaceResult loserRaceResult = new RaceResult
+                {
+                    User = loser,
+                    Race = race,
+                    ResultPlace = 2
+                };
+                raceRepository.AddRaceResult(loserRaceResult);
+                StageResult loserStageResult = new StageResult
+                {
+                    User = loser,
+                    Stage = stage,
+                    ResultPlace = ((int)Math.Pow(2, iRound))
+                };
+                stageRepository.AddStageResult(loserStageResult);
+            }
 
-            RaceResult winnerRaceResult = new RaceResult
+            if (winner != null)
             {
-                User = winner,
-                Race = race,
-                ResultPlace = 1
-            };
-            raceRepository.AddRaceResult(winnerRaceResult);
-
-            StageResult loserStageResult = new StageResult
-            {
-                User = loser,
-                Stage = stage,
-                ResultPlace = ((int)Math.Pow(2, iRound))
-            };
-            stageRepository.AddStageResult(loserStageResult);
-
+                RaceResult winnerRaceResult = new RaceResult
+                {
+                    User = winner,
+                    Race = race,
+                    ResultPlace = 1
+                };
+                raceRepository.AddRaceResult(winnerRaceResult);
+            }
+           
             return winner;
         }
-
 
         public void EventStage(Stage stage)
         {
@@ -198,15 +202,49 @@ namespace DriftCompetitionWeb.Models
                 roundPairs = listOfPairsForNonStartRound(winnersList, iRound - 1);
             }
             IdentityUser winner = winnersList[0];
-            StageResult winnerStageResult = new StageResult
+            if (winner != null)
             {
-                User = winner,
-                Stage = stage,
-                ResultPlace = 1
-            };
-            stageRepository.AddStageResult(winnerStageResult);
+                StageResult winnerStageResult = new StageResult
+                {
+                    User = winner,
+                    Stage = stage,
+                    ResultPlace = 1
+                };
+                stageRepository.AddStageResult(winnerStageResult);
+            }
             stage.IsOver = true;
             stageRepository.SaveChanges();
+        }
+
+        public List<List<Tuple<IdentityUser, IdentityUser>>> allRoundsPairsOfStage(Stage stage)
+        {
+            List<IdentityUser> stageParticipants = StageParticipants(stage);
+            int nRounds = NRounds(stageParticipants.Count);
+
+            List<List<Tuple<IdentityUser, IdentityUser>>> resultList = new List<List<Tuple<IdentityUser, IdentityUser>>> { };
+            for (int iRound = 0; iRound < nRounds; ++iRound)
+            {
+                List<Tuple<IdentityUser, IdentityUser>> roundList = new List<Tuple<IdentityUser, IdentityUser>> { };
+                int nRacesInRound = ((int)Math.Pow(2, nRounds - iRound - 1));
+                for (int iRace = 0; iRace < nRacesInRound; ++iRace)
+                {
+                    Race race = raceRepository.RaceInStageByOlympicNumber(stage, ((int)Math.Pow(2, nRounds - iRound - 1)) + iRace);
+                    if (race == null)
+                    {
+                        roundList.Add(new Tuple<IdentityUser, IdentityUser>(null, null));
+                        continue;
+                    }
+                    string loserID = raceRepository.ResultByPlace(race, 2).UserId;
+                    string winnerID = raceRepository.ResultByPlace(race, 1).UserId;
+
+                    IdentityUser loser = userRepository.UserByID(loserID);
+                    IdentityUser winner = userRepository.UserByID(winnerID);
+
+                    roundList.Add(new Tuple<IdentityUser, IdentityUser>(winner, loser));
+                }
+                resultList.Add(roundList);
+            }
+            return resultList;
         }
     }
 }

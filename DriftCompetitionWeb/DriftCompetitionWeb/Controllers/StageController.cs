@@ -46,6 +46,8 @@ namespace DriftCompetitionWeb.Controllers
             ViewBag.Organizer = organizer;
             ViewBag.Stage = stage;
 
+            var check = driftCompetitionDevice.allRoundsPairsOfStage(stage);
+
             List<IdentityUser> participants = driftCompetitionDevice.StageParticipants(stage);
             ViewBag.Participants = participants;
             return View();
