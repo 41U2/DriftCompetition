@@ -72,24 +72,28 @@
         </div>
         <div class="participants">
             <h5>Участники: </h5>
-            @foreach (Microsoft.AspNetCore.Identity.IdentityUser participant in ViewBag.Participants)
+            @for (int iParticipant = 1; iParticipant <= ViewBag.Participants.Count; ++iParticipant)
             {
-                <h6>@participant.UserName</h6>
-            }
+                <h6>@iParticipant.  @ViewBag.Participants[iParticipant - 1].UserName, номер: @ViewBag.CarNumbers[iParticipant - 1]</h6>
+                @if (ViewBag.CurrentUser == ViewBag.Organizer && !ViewBag.Stage.IsOver)
+                {
+                    <a asp-controller="Stage" asp-action="RemoveParticipantFromStage" asp-route-UserId="@ViewBag.Participants[iParticipant - 1].Id", asp-route-StageID="@ViewBag.Stage.StageID">Удалить пользователя из соревнования</a>
+                }
+}
         </div>
     </div>
 
     @if (User.Identity.Name != null && !ViewBag.Stage.IsOver)
     {
         <div class="text-center">
-            <form action="RegistrateToStage" method="post">
-                <input type="hidden" name="StageID" value="@ViewBag.Stage.StageID">
+            <form action="SelectCarNumber" method="post">
+                <input type="hidden" name="stageID" value="@ViewBag.Stage.StageID">
                 <input type="submit" value="Зарегистрироваться">
             </form>
         </div>
     }
 
-    @if (User.Identity.Name == ViewBag.Organizer.UserName && !ViewBag.Stage.IsOver)
+    @if (ViewBag.CurrentUser == ViewBag.Organizer && !ViewBag.Stage.IsOver)
     {
         <div class="text-center">
             <form action="EventStage" method="post">

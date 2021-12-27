@@ -84,31 +84,31 @@
 
 
     <div class=container>
-        <h5>Объявленные этапы: </h5>
-        @foreach (Stage stage in ViewBag.Stages)
-        {
-            <div class=stage>
-                <h5>Место проведения: </h5>
-                <h6>@stage.Address</h6>
-                <h5>Старт регистрации: </h5>
-                <h6>@stage.RegistrationStartTime</h6>
-                <h5>Окончание регистрации: </h5>
-                <h6>@stage.RegistrationEndTime</h6>
-                <h5>Цена просмотра: </h5>
-                <h6>@stage.ViewPrice$</h6>
-                <h5>Цена участия: </h5>
-                <h6>@stage.ParticipationPrice$</h6>
-                <a asp-controller="Stage" asp-action="Info" asp-route-stageID="@stage.StageID">Узнать больше</a>
-            </div>
-        }
-    </div>
-    @if (User.Identity.Name != null)
-    {
         <div class="text-center">
-            <form action="SelectStageParams" method="post">
-                <input type="hidden" name="CompetitionID" value="@ViewBag.CompetitionID">
-                <input type="submit" value="Добавить этап">
-            </form>
-        </div> 
-    }
+            <h3>Объявленные этапы </h3>
+            @if (User.Identity.Name != null)
+            {
+                <form action="SelectStageParams" method="post">
+                    <input type="hidden" name="CompetitionID" value="@ViewBag.CompetitionID">
+                    <input type="submit" value="Добавить этап">
+                </form>
+            }
+        </div>
+            @foreach (Stage stage in ViewBag.Stages)
+            {
+                <div class=stage>
+                    <h5>Место проведения: </h5>
+                    <h6>@stage.Address</h6>
+                    <h5>Старт регистрации: </h5>
+                    <h6>@stage.RegistrationStartTime</h6>
+                    <h5>Окончание регистрации: </h5>
+                    <h6>@stage.RegistrationEndTime</h6>
+                    <h5>Цена просмотра: </h5>
+                    <h6>@stage.ViewPrice$</h6>
+                    <h5>Цена участия: </h5>
+                    <h6>@stage.ParticipationPrice$</h6>
+                    <a asp-controller="Stage" asp-action="Info" asp-route-stageID="@stage.StageID">Узнать больше</a>
+                </div>
+            }
+        </div>
 </body>

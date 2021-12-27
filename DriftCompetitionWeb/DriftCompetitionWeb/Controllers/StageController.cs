@@ -51,12 +51,22 @@ namespace DriftCompetitionWeb.Controllers
             ViewBag.RoundPairsNames = roundPairsNames;
             
             List<IdentityUser> participants = driftCompetitionDevice.StageParticipants(stage);
+            List<string> carNumbers = driftCompetitionDevice.StageParticipantNumbers(stage);
             ViewBag.Participants = participants;
+            ViewBag.CarNumbers = carNumbers;
+
+            IdentityUser currentUser = CurrentUser();
+            ViewBag.CurrentUser = currentUser;
             return View();
         }
 
         [HttpPost]
-        public IActionResult RegistrateToStage(Guid StageID)
+        public IActionResult SelectCarNumber(Guid stageID)
+        {
+            return RedirectToRoute(new { Controller = "Garage", action = "Cars", needToSelectCarNumber = true, stageID = stageID });
+        }
+
+        public IActionResult RegistrateToStage(Guid StageID, Guid CarNumberID)
         {
             IdentityUser currentUser = CurrentUser();
             if (currentUser == null)
@@ -64,7 +74,16 @@ namespace DriftCompetitionWeb.Controllers
             Stage stage = driftCompetitionDevice.stageRepository.StageByID(StageID);
             if (stage == null)
                 return RedirectToRoute(new { Controller = "Stage", action = "Info", stageID = StageID });
-            driftCompetitionDevice.RegistrateUserToStage(currentUser, stage);
+            CarNumber carNumber = driftCompetitionDevice.carsRepository.CarNumberByID(CarNumberID);
+            driftCompetitionDevice.RegistrateUserToStage(currentUser, stage, carNumber);
+            return RedirectToRoute(new { Controller = "Stage", action = "Info", stageID = StageID });
+        }
+
+        public IActionResult RemoveParticipantFromStage(string UserId, Guid StageID)
+        { 
+            IdentityUser participant = driftCompetitionDevice.userRepository.UserByID(UserId);
+            Stage stage = driftCompetitionDevice.stageRepository.StageByID(StageID);
+            driftCompetitionDevice.RemoveParticipantFromStage(participant, stage);
             return RedirectToRoute(new { Controller = "Stage", action = "Info", stageID = StageID });
         }
 

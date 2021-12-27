@@ -32,7 +32,7 @@
     </div>
 
 
-    @if (User.Identity.Name == null)
+    @if (ViewBag.CurrentUser == null)
     {
         <div class="text-center">
             <h3>Не авторизован</h3>
@@ -42,7 +42,11 @@
     {
         <h5></h5>
         <h5>Имя пользователя:</h5>
-        <h6>@User.Identity.Name</h6>
+        <h6>@ViewBag.CurrentUser.UserName</h6>
+        <form action="SetUserName" method="post">
+            <input type="text" name="name" placeholder="Новое имя">
+            <input type="submit" value="Изменить имя пользователя">
+        </form>
         <h5>Участия в этапах: </h5>
         <div class=container>
             @foreach (StageResult stageResult in ViewBag.StagesResults)

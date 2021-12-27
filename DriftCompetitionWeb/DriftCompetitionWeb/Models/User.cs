@@ -26,6 +26,11 @@ namespace DriftCompetitionWeb.Models
             m_dbContext = dbContext;
         }
 
+        public void SaveChanges()
+        {
+            m_dbContext.SaveChanges();
+        }
+
         public IdentityUser UserByID(string userID)
         {
             return m_dbContext.Users.Where(u => u.Id == userID).FirstOrDefault();

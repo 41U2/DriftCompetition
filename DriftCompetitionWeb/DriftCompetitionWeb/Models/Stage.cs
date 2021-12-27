@@ -31,6 +31,7 @@ namespace DriftCompetitionWeb.Models
         public virtual IdentityUser User { set; get; }
         public virtual string UserId { set; get; }
         public virtual CarNumber CarNumber { set; get; }
+        public virtual Guid CarNumberID { set; get; }
         public int ResultPlace { set; get; }
     }
 

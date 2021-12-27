@@ -42,8 +42,12 @@
             @foreach (CarNumber carNumber in ViewBag.CarNumbers[iCar])
             {
                 <h6>@carNumber.Number</h6>
+                if (ViewBag.NeedToSelectCarNumber)
+                {
+                    <a asp-controller="Stage" asp-action="RegistrateToStage" asp-route-StageID="@ViewBag.StageID" asp-route-CarNumberID=@carNumber.CarNumberID>Использовать для соревнования</a>
+                }
             }
-            @if (User.Identity.Name != null)
+            @if (User.Identity.Name != null && !ViewBag.NeedToSelectCarNumber)
             { 
                 <form action="AddCarNumber" method="post">
                     <input type="hidden" name="CarID" value="@ViewBag.Cars[iCar].CarID">
@@ -56,7 +60,7 @@
         }
     </div>
 
-    @if (User.Identity.Name != null)
+    @if (User.Identity.Name != null && !ViewBag.NeedToSelectCarNumber)
     {
         <div class="text-center">
             <form action="AddCar" method="post">

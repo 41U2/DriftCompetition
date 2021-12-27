@@ -28,7 +28,7 @@ namespace DriftCompetitionWeb.Controllers
             return userTmp.Result;
         }
 
-        public IActionResult Cars()
+        public IActionResult Cars(bool needToSelectCarNumber = false, Guid stageID = default)
         {
 
             IdentityUser currentUser = CurrentUser();
@@ -45,6 +45,8 @@ namespace DriftCompetitionWeb.Controllers
                 allCarsNumbers.Add(carNumbers.ToList());
             }
             ViewBag.CarNumbers = allCarsNumbers;
+            ViewBag.NeedToSelectCarNumber = needToSelectCarNumber;
+            ViewBag.StageID = stageID;
             return View();
         }
 

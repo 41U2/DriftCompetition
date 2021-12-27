@@ -77,6 +77,11 @@ namespace DriftCompetitionWeb.Models
             m_dbContext.SaveChanges();
         }
 
+        public CarNumber CarNumberByID(Guid id)
+        {
+            return m_dbContext.CarNumbers.Where(cn => cn.CarNumberID == id).FirstOrDefault();
+        }
+
         public void RemoveCarNumber(CarNumber carNumber)
         {
             if (carNumber == null)
