@@ -104,11 +104,17 @@ namespace DriftCompetitionWeb.Controllers
         public IActionResult Info(Guid competitionID)
         {
             Competition competition = driftCompetitionDevice.competitionRepository.CompetitionByID(competitionID);
-            IEnumerable<Stage> competitionStages = driftCompetitionDevice.stageRepository.AllCompetitionStages(competition);
+            List<Stage> competitionStages = driftCompetitionDevice.stageRepository.AllCompetitionStages(competition).ToList();
+            List<CompetitionResult> competitionResults = driftCompetitionDevice.competitionRepository.SortedCompetitionResultsFromTop(competition).ToList();
+            List<IdentityUser> sortedUsers = new List<IdentityUser> { };
+            foreach (CompetitionResult result in competitionResults)
+                sortedUsers.Add(driftCompetitionDevice.userRepository.UserByID(result.UserId));
 
             ViewBag.Competition = competition;
             ViewBag.Stages = competitionStages;
             ViewBag.CompetitionID = competitionID;
+            ViewBag.CompetitionResults = competitionResults;
+            ViewBag.SortedUsers = sortedUsers;
             return View();
         }
 

@@ -28,7 +28,9 @@ namespace DriftCompetitionWeb.Models
     {
         public Guid CompetitionResultID { set; get; }
         public virtual Competition Competition { set; get; }
+        public virtual Guid CompetitionID { set; get; }
         public IdentityUser User { set; get; }
+        public virtual string UserId { set; get; }
         public int NumberOfCompletedStages { set; get; }
         public float ResultGrade { set; get; }
         public int ResultPlace { set; get; }
@@ -41,6 +43,11 @@ namespace DriftCompetitionWeb.Models
         public CompetitionRepository(ApplicationDbContext dbContext)
         {
             m_dbContext = dbContext;
+        }
+
+        public void SaveChanges()
+        {
+            m_dbContext.SaveChanges();
         }
 
         public void AddCompetition(Competition competition)
@@ -85,6 +92,11 @@ namespace DriftCompetitionWeb.Models
             m_dbContext.SaveChanges();
         }
 
+        public IEnumerable<CompetitionResult> SortedCompetitionResultsFromTop(Competition competition)
+        {
+            return m_dbContext.CompetitionResults.Where(cr => cr.Competition == competition).OrderBy(cr => cr.ResultGrade).Reverse();
+        }
+
         public CompetitionResult UsersCompetitionResult(IdentityUser user, Competition competition)
         {
             if (user == null || competition == null)
@@ -94,7 +106,7 @@ namespace DriftCompetitionWeb.Models
                 Include(cr => cr.User).
                 Where(cr => cr.User == user).
                 Where(cr => cr.Competition == competition).
-                First();
+                FirstOrDefault();
         }
 
         public IEnumerable<CompetitionResult> GetAllUsersCompetitionResults(IdentityUser user)

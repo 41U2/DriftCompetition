@@ -58,6 +58,14 @@ namespace DriftCompetitionWeb.Models
             UserToRole checkExistance = roleRepository.UserToRoleByAllParams(user, participant, stage);
             if (checkExistance != null)
                 return;
+
+            Competition competition = competitionRepository.CompetitionByID(stage.CompetitionID);
+            CompetitionResult currentCompetitionResult = competitionRepository.UsersCompetitionResult(user, competition);
+            if (currentCompetitionResult == null)
+            {
+                currentCompetitionResult = new CompetitionResult { User = user, Competition = competition };
+                competitionRepository.AddCompetitionResult(currentCompetitionResult);
+            }
             roleRepository.AddUserToRole(userToRole);
         }
 
@@ -190,6 +198,25 @@ namespace DriftCompetitionWeb.Models
             return winner;
         }
 
+        private void UpdateCompetitonResultsAfterStage(Stage stage)
+        {
+            List<StageResult> stageResults = stageRepository.AllStageResults(stage).ToList();
+            Competition competition = competitionRepository.CompetitionByID(stage.CompetitionID);
+            for (int iStageResult = 0; iStageResult < stageResults.Count; ++iStageResult)
+            {
+                StageResult stageResult = stageResults[iStageResult];
+                IdentityUser user = userRepository.UserByID(stageResults[iStageResult].UserId);
+                CompetitionResult competitionResult = competitionRepository.UsersCompetitionResult(user, competition);
+                if (stageResult.ResultPlace == 3)
+                    competitionResult.ResultGrade += 1;
+                if (stageResult.ResultPlace == 2)
+                    competitionResult.ResultGrade += 2;
+                if (stageResult.ResultPlace == 1)
+                    competitionResult.ResultGrade += 4;
+                competitionRepository.SaveChanges();
+            }
+        }
+
         public void EventStage(Stage stage)
         {
             List<IdentityUser> stageParticipants = StageParticipants(stage);
@@ -214,6 +241,7 @@ namespace DriftCompetitionWeb.Models
             }
             stage.IsOver = true;
             stageRepository.SaveChanges();
+            UpdateCompetitonResultsAfterStage(stage);
         }
 
         public List<List<Tuple<IdentityUser, IdentityUser>>> allRoundsPairsOfStage(Stage stage)
@@ -284,5 +312,6 @@ namespace DriftCompetitionWeb.Models
             }
             return resultList;
         }
+
     }
 }

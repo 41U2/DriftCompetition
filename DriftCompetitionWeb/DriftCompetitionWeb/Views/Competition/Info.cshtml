@@ -7,9 +7,11 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Поля</title>
     <style type="text/css">
+
         .competition {
-            width: 330px; /* Ширина контента */
+            width: 500px; /* Ширина контента */
             height: 400px;
+            float: left;
             margin-left: auto;
             margin-right: auto;
             border: 2px solid silver; /* Параметры границы */
@@ -17,6 +19,17 @@
             border-radius: 15px;
             overflow-y: auto;
             background: #ADD8E6;
+        }
+        .results {
+            width: 500px; /* Ширина контента */
+            height: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 2px solid silver; /* Параметры границы */
+            padding: 10px;
+            border-radius: 15px;
+            overflow-y: auto;
+            background: #FFEFD5;
         }
         .stage {
             float: left;
@@ -41,23 +54,32 @@
         <h3 class="display-3">@ViewBag.Title</h3>
     </div>
 
-    <div class=competition>
-        <h5>Название: </h5>
-        <h6>@ViewBag.Competition.Name</h6>
-        <h5>Формат: </h5>
-        <h6>@ViewBag.Competition.Format</h6>
-        <h5>Призовой фонд: </h5>
-        <h6>@ViewBag.Competition.PrizePool</h6>
-        <h5>Количество этапов: </h5>
-        <h6>@ViewBag.Competition.StagesNumber</h6>
-        <h5>Начало: </h5>
-        <h6>@ViewBag.Competition.BeginTime</h6>
-        <h5>Окончание: </h5>
-        <h6>@ViewBag.Competition.EndTime</h6>
-        <h5>Требования к участнику: </h5>
-        <h6>@ViewBag.Competition.Requirements</h6>
-    </div>
+    <div class="container">
+        <div class=competition>
+            <h5>Название: </h5>
+            <h6>@ViewBag.Competition.Name</h6>
+            <h5>Формат: </h5>
+            <h6>@ViewBag.Competition.Format</h6>
+            <h5>Призовой фонд: </h5>
+            <h6>@ViewBag.Competition.PrizePool</h6>
+            <h5>Количество этапов: </h5>
+            <h6>@ViewBag.Competition.StagesNumber</h6>
+            <h5>Начало: </h5>
+            <h6>@ViewBag.Competition.BeginTime</h6>
+            <h5>Окончание: </h5>
+            <h6>@ViewBag.Competition.EndTime</h6>
+            <h5>Требования к участнику: </h5>
+            <h6>@ViewBag.Competition.Requirements</h6>
+        </div>
 
+        <div class="results">
+            <h5> Текущие результаты соревнования:</h5>
+            @for (int iCompetitionResult = 1; iCompetitionResult <= ViewBag.CompetitionResults.Count; ++iCompetitionResult)
+            {
+                <h6> @iCompetitionResult.  @ViewBag.SortedUsers[iCompetitionResult - 1].UserName, @ViewBag.CompetitionResults[iCompetitionResult - 1].ResultGrade баллов</h6>
+            }
+        </div>
+    </div>
 
 
 

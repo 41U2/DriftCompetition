@@ -98,6 +98,11 @@ namespace DriftCompetitionWeb.Models
             m_dbContext.SaveChanges();
         }
 
+        public IEnumerable<StageResult> AllStageResults(Stage stage)
+        {
+            return m_dbContext.StageResults.Where(sr => sr.Stage == stage);
+        }
+
         public void RemoveStageResult(StageResult stageResult)
         {
             if (stageResult == null)
